@@ -1,0 +1,49 @@
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+body {
+    background-color: #1B222E;
+    color: #E9E7F5;
+    font-family: system-ui, -apple-system, sans-serif;
+    padding: 1.5rem;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    min-height: 100vh;
+}
+
+.charts-wrapper {
+    width: 100%;
+    max-width: 800px;
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+
+.chart-card {
+    background-color: #252F3F;
+    border: 1px solid rgba(144, 142, 156, 0.4);
+    border-radius: 8px;
+    padding: 1.25rem;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
+}
+
+.chart-title {
+    font-size: 0.85rem;
+    font-family: monospace;
+    color: #908E9C;
+    margin-bottom: 0.75rem;
+}
+
+.chart-container {
+    position: relative;
+    height: 220px;
+    width: 100%;
+}
+
+.bar-height {
+    height: 160px;
+}

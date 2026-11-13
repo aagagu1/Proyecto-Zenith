@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zenith— Módulo de Gráficas</title>
+    <!-- Enlace al archivo CSS externo -->
+    <link rel="stylesheet" href="styles.css">
+    <!-- Chart.js CDN -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+
+    <!-- CONTENEDOR EXCLUSIVO DE GRÁFICAS -->
+    <div class="charts-wrapper">
+
+        <!-- Gráfica de Líneas -->
+        <div class="Graphic-card">
+            <h3 class="Graphic-title">Evolución Temporal: R2 Data vs R1 Baseline</h3>
+            <div class="Graphic-container">
+                <canvas id="lineChart"></canvas>
+            </div>
+        </div>
+
+        <!-- Gráfica de Barras -->
+        <div class="Graphic-card">
+            <h3 class="Graphic-title">Métricas Acumuladas por Intervalo</h3>
+            <div class="Graphic-container bar-height">
+                <canvas id="barChart"></canvas>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Enlace al archivo JavaScript externo -->
+    <script src="script.js"></script>
+</body>
+</html>
