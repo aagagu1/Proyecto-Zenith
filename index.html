@@ -1,15 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zenith— Módulo de Gráficas</title>
+    <title>Zenith — Módulo de Gráficas</title>
     <!-- Enlace al archivo CSS externo -->
     <link rel="stylesheet" href="styles.css">
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
+
 <body>
+    <header>
+        <nav class="navbar">
+            <a href="#">
+                <img class="nav-logo" src="images/logo_nav.png" alt="" srcset="">
+            </a>
+            <ul class="nav-links">
+                <li><a href="#" class="active">Inicio</a></li>
+                <li><a href="">Equipo</a></li>
+                <li><a href="">Lanzamiento</a></li>
+                <li><a href="">Noticias</a></li>
+                <li><a href="">Contacto</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <div class="selector-antena">
+        <button class="antenna-btn active" data-antena="antena1">Antena 1 (Principal)</button>
+        <button class="antenna-btn" data-antena="antena2">Antena 2 (Secundaria)</button>
+        <button class="antenna-btn" data-antena="antena3">Antena 3 (Telemetría R2)</button>
+    </div>
+
 
     <!-- CONTENEDOR EXCLUSIVO DE GRÁFICAS -->
     <div class="charts-wrapper">
@@ -29,7 +52,6 @@
                 <canvas id="barChart"></canvas>
             </div>
         </div>
-
     </div>
 
     <!-- Enlace al archivo JavaScript externo -->
