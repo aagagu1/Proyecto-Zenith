@@ -1,13 +1,17 @@
-// 1. Inicializar Gráfica de Líneas
+// ==========================================================
+// 1. INICIALIZACIÓN DE LAS GRÁFICAS (CONECTADAS A PYTHON)
+// ==========================================================
+
+// Gráfica de Líneas
 const ctxLine = document.getElementById('lineChart').getContext('2d');
 const lineChart = new Chart(ctxLine, {
     type: 'line',
     data: {
-        labels: ['0', '1', '2', '3', '4', '5', '6', '7', '8', '9', '10'],
+        labels: [], // Se alimenta dinámicamente desde el JSON de Python
         datasets: [
             { 
-                label: 'R2 Data', 
-                data: [45, 60, 52, 40, 75, 105, 78, 85, 50, 98, 70], 
+                label: 'Evolución (Principal)', 
+                data: [], 
                 borderColor: '#C59366', 
                 backgroundColor: '#C59366', 
                 borderWidth: 2, 
@@ -15,9 +19,10 @@ const lineChart = new Chart(ctxLine, {
             },
             { 
                 label: 'R1 Baseline', 
-                data: [50, 48, 65, 42, 60, 95, 108, 75, 82, 68, 100], 
-                borderColor: '#00ff33', 
-                backgroundColor: '#3f4c84', 
+                data: [], 
+                borderColor: '#E9E7F5', 
+                backgroundColor: '#616161', 
+                borderDash: [5, 5], // Serie de referencia discontinua según guía
                 borderWidth: 2, 
                 tension: 0.3 
             }
@@ -27,50 +32,115 @@ const lineChart = new Chart(ctxLine, {
         responsive: true, 
         maintainAspectRatio: false,
         plugins: { 
-            legend: { labels: { color: '#E9E7F5', font: { size: 11 } } } 
+            legend: { 
+                labels: { 
+                    color: '#E9E7F5', 
+                    font: { family: 'Inter', size: 12 } 
+                } 
+            } 
         },
         scales: {
-            x: { ticks: { color: '#908E9C' }, grid: { color: 'rgba(144, 142, 156, 0.1)' } },
-            y: { ticks: { color: '#908E9C' }, grid: { color: 'rgba(144, 142, 156, 0.1)' } }
+            x: { 
+                ticks: { color: '#908E9C', font: { size: 11 } }, 
+                grid: { color: 'rgba(233, 231, 245, 0.12)' } // Cuadrícula al 12% según guía
+            },
+            y: { 
+                ticks: { color: '#908E9C', font: { size: 11 } }, 
+                grid: { color: 'rgba(233, 231, 245, 0.12)' } 
+            }
         }
     }
 });
 
-// 2. Inicializar Gráfica de Barras
+// Gráfica de Barras
 const ctxBar = document.getElementById('barChart').getContext('2d');
 const barChart = new Chart(ctxBar, {
     type: 'bar',
     data: {
-        labels: ['T1', 'T2', 'T3', 'T4', 'T5', 'T6', 'T7', 'T8'],
-        datasets: [{ 
-            label: 'Volumen R2', 
-            data: [60, 85, 80, 110, 50, 75, 105, 140], 
-            backgroundColor: '#908E9C', 
-            borderColor: '#C59366', 
-            borderWidth: 1 
-        }]
+        labels: [], // Se alimenta dinámicamente desde el JSON de Python
+        datasets: [
+            { 
+                label: 'Antena (Principal)', 
+                data: [], 
+                backgroundColor: '#E9E7F5', // Barra destacada según guía
+                borderWidth: 1 
+            },
+            { 
+                label: 'R1 Baseline', 
+                data: [], 
+                backgroundColor: '#908E9C', 
+                borderWidth: 1 
+            }
+        ]
     },
     options: {
         responsive: true, 
         maintainAspectRatio: false,
         plugins: { 
-            legend: { display: false } 
+            legend: { 
+                labels: { 
+                    color: '#E9E7F5', 
+                    font: { family: 'Inter', size: 12 } 
+                } 
+            } 
         },
         scales: {
-            x: { ticks: { color: '#908E9C' }, grid: { display: false } },
-            y: { ticks: { color: '#908E9C' }, grid: { color: 'rgba(144, 142, 156, 0.1)' } }
+            x: { 
+                ticks: { color: '#908E9C', font: { size: 11 } }, 
+                grid: { display: false } 
+            },
+            y: { 
+                ticks: { color: '#908E9C', font: { size: 11 } }, 
+                grid: { color: 'rgba(233, 231, 245, 0.12)' } 
+            }
         }
     }
 });
 
-// ========================================================
-// FUNCIÓN PARA ACTUALIZAR CON LOS DATOS QUE LLEGUEN DE PYTHON
-// ========================================================
+
+// ==========================================================
+// 2. FUNCIÓN DE ACTUALIZACIÓN DINÁMICA
+// ==========================================================
 function actualizarGraficasDesdePython(nuevosDatos) {
-    lineChart.data.datasets[0].data = nuevosDatos.lineR2;
-    lineChart.data.datasets[1].data = nuevosDatos.lineR1;
+    if (nuevosDatos.labels) {
+        lineChart.data.labels = nuevosDatos.labels;
+        barChart.data.labels = nuevosDatos.labels;
+    }
+
+    if (nuevosDatos.lineR2) {
+        lineChart.data.datasets[0].data = nuevosDatos.lineR2;
+    }
+    if (nuevosDatos.lineR1) {
+        lineChart.data.datasets[1].data = nuevosDatos.lineR1;
+    }
     lineChart.update();
 
-    barChart.data.datasets[0].data = nuevosDatos.barValues;
+    if (nuevosDatos.barAntena) {
+        barChart.data.datasets[0].data = nuevosDatos.barAntena;
+    }
+    if (nuevosDatos.barBaseline) {
+        barChart.data.datasets[1].data = nuevosDatos.barBaseline;
+    }
     barChart.update();
 }
+
+
+// ==========================================================
+// 3. CONEXIÓN CON EL FLUJO DE PYTHON (LECTURA DE ARCHIVO LOCAL)
+// ==========================================================
+function obtenerDatosLocalesPython() {
+    fetch('datos.json')
+        .then(response => {
+            if (!response.ok) throw new Error("No se pudo cargar el archivo de datos");
+            return response.json();
+        })
+        .then(data => {
+            actualizarGraficasDesdePython(data);
+        })
+        .catch(error => {
+            console.log("Esperando flujo de datos desde Python...", error);
+        });
+}
+
+// Consultar los datos nuevos de Python cada 2 segundos automáticamente
+setInterval(obtenerDatosLocalesPython, 2000);

@@ -1,3 +1,22 @@
+/* ==========================================================
+   VARIABLES CSS CONJUNTAS (Paleta y Tipografías oficiales Zenith)
+   ================================================---------- */
+:root {
+    --color-bg: #1B222E;
+    --color-surface: #252F3F;
+    --color-ink: #11161F;
+    --color-text: #E9E7F5;
+    --color-accent: #C59366;
+    --color-accent-dark: #84633F;
+    --color-success: #5FBF8F;
+    --color-warning: #E0B85C;
+    --color-error: #EE7A8A;
+    --color-info: #7FA6D9;
+
+    --font-title: 'Inter', 'Google Sans', Arial, sans-serif;
+    --font-body: 'Redaction 10', 'Redaction', 'Times New Roman', serif;
+}
+
 * {
     box-sizing: border-box;
     margin: 0;
@@ -5,14 +24,28 @@
 }
 
 body {
-    background-color: #1B222E;
-    color: #E9E7F5;
-    font-family: system-ui, -apple-system, sans-serif;
-    padding: 1.5rem;
+    background-color: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    min-height: 100vh;
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    padding: 24px;
+}
+
+/* Evitar scroll horizontal y asegurar elementos responsivos */
+img, svg, canvas {
+    max-width: 100%;
+    height: auto;
+}
+
+.content {
+    width: min(100%, 1200px);
+    margin-inline: auto;
+    width: 50% - 85%; /* Alineado al rango de visualización del contenido */
     display: flex;
     justify-content: center;
     align-items: center;
-    min-height: 100vh;
 }
 
 .charts-wrapper {
@@ -20,30 +53,39 @@ body {
     max-width: 800px;
     display: flex;
     flex-direction: column;
-    gap: 1.5rem;
+    gap: 24px; /* Espaciado normalizado según guía (24 px) */
 }
 
+/* Tarjeta o panel oficial Zenith (#252F3F, radio 16px, relleno 24px, borde 1px #C59366 al 35%) */
 .chart-card {
-    background-color: #252F3F;
-    border: 1px solid rgba(144, 142, 156, 0.4);
-    border-radius: 8px;
-    padding: 1.25rem;
+    background-color: var(--color-surface);
+    border: 1px solid rgba(197, 147, 102, 0.35);
+    border-radius: 16px;
+    padding: 24px;
     box-shadow: 0 4px 6px rgba(0, 0, 0, 0.15);
 }
 
+/* Títulos H3 de gráfica o módulo: 1,25 rem (125%), peso 600, Inter */
 .chart-title {
-    font-size: 0.85rem;
-    font-family: monospace;
-    color: #908E9C;
-    margin-bottom: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 600;
+    font-family: var(--font-title);
+    color: var(--color-text);
+    margin-bottom: 16px;
 }
 
 .chart-container {
     position: relative;
-    height: 220px;
+    height: 240px; /* Alto mínimo obligatorio para gráficas según la guía */
     width: 100%;
 }
 
 .bar-height {
-    height: 160px;
+    height: 240px;
+}
+
+/* Foco visible accesible requerido por la guía */
+button:focus-visible, a:focus-visible, input:focus-visible {
+    outline: 2px solid #E9E7F5;
+    outline-offset: 2px;
 }

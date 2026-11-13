@@ -1,38 +1,48 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zenith— Módulo de Gráficas</title>
+    <title>Zenith — Módulo de Gráficas</title>
     <!-- Enlace al archivo CSS externo -->
     <link rel="stylesheet" href="styles.css">
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
 
-    <!-- CONTENEDOR EXCLUSIVO DE GRÁFICAS -->
-    <div class="charts-wrapper">
+    <!-- CONTENEDOR EXCLUSIVO DE GRÁFICAS / CONTENIDO -->
+    <main class="content">
+        <div class="charts-wrapper">
 
-        <!-- Gráfica de Líneas -->
-        <div class="Graphic-card">
-            <h3 class="Graphic-title">Evolución Temporal: R2 Data vs R1 Baseline</h3>
-            <div class="Graphic-container">
-                <canvas id="lineChart"></canvas>
+            <!-- Gráfica de Líneas -->
+            <div class="chart-card">
+                <h3 class="chart-title">Evolución Temporal: R2 Data vs R1 Baseline</h3>
+                <div class="chart-container">
+                    <canvas id="lineChart"></canvas>
+                </div>
             </div>
-        </div>
 
-        <!-- Gráfica de Barras -->
-        <div class="Graphic-card">
-            <h3 class="Graphic-title">Métricas Acumuladas por Intervalo</h3>
-            <div class="Graphic-container bar-height">
-                <canvas id="barChart"></canvas>
+            <!-- Gráfica de Barras -->
+            <div class="chart-card">
+                <h3 class="chart-title">Métricas Acumuladas por Intervalo</h3>
+                <div class="chart-container bar-height">
+                    <canvas id="barChart"></canvas>
+                </div>
             </div>
-        </div>
 
-    </div>
+        </div>
+    </main>
 
     <!-- Enlace al archivo JavaScript externo -->
     <script src="script.js"></script>
 </body>
+
 </html>
