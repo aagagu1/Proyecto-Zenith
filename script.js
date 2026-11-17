@@ -266,26 +266,59 @@ const nombresFuente = {
     sonda: 'Sonda'
 };
 
+if (typeof datosPorAntena !== 'undefined' && !datosPorAntena.sonda) {
+    datosPorAntena.sonda = datosPorAntena.antena1;
+}
+
+const mapaSelectorAPanel = {
+    antena1: 'estacion1',
+    antena2: 'estacion2',
+    antena3: 'estacion3',
+    sonda: 'sonda'
+};
+
+const mapaPanelASelector = {
+    estacion1: 'antena1',
+    estacion2: 'antena2',
+    estacion3: 'antena3',
+    sonda: 'sonda'
+};
+
+function seleccionarFuente(idPanel) {
+    fuenteActiva = idPanel;
+    const idSelector = mapaPanelASelector[idPanel] || idPanel;
+
+    antennaBtns.forEach(btn => {
+        btn.classList.toggle('active', btn.getAttribute('data-antena') === idSelector);
+    });
+
+    nodosItems.forEach(n => {
+        const esActiva = n.getAttribute('data-antena') === idPanel;
+        n.classList.toggle('nodo-activo', esActiva);
+        if (esActiva) {
+            n.setAttribute('aria-current', 'true');
+        } else {
+            n.removeAttribute('aria-current');
+        }
+    });
+
+    if (antenaSeleccionadaEl) {
+        antenaSeleccionadaEl.textContent = nombresFuente[idPanel] || idPanel;
+    }
+
+    pintarPaquetes();
+}
+
+antennaBtns.forEach(btn => {
+    btn.addEventListener('click', () => {
+        const idSelector = btn.getAttribute('data-antena');
+        seleccionarFuente(mapaSelectorAPanel[idSelector] || idSelector);
+    });
+});
+
 nodosItems.forEach(item => {
     item.addEventListener('click', () => {
-        const id = item.getAttribute('data-antena');
-        fuenteActiva = id;
-
-        nodosItems.forEach(n => {
-            const esActiva = n.getAttribute('data-antena') === id;
-            n.classList.toggle('nodo-activo', esActiva);
-            if (esActiva) {
-                n.setAttribute('aria-current', 'true');
-            } else {
-                n.removeAttribute('aria-current');
-            }
-        });
-
-        if (antenaSeleccionadaEl) {
-            antenaSeleccionadaEl.textContent = nombresFuente[id] || id;
-        }
-
-        pintarPaquetes();
+        seleccionarFuente(item.getAttribute('data-antena'));
     });
 });
 
