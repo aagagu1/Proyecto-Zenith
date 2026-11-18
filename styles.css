@@ -45,7 +45,7 @@ img, svg, canvas {
 
 /* NAV */
 nav {
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto 16px auto;
     background-color: var(--color-elements);
     border-radius: 8px;
@@ -93,7 +93,7 @@ nav {
     position: sticky;
     top: 15px;
     z-index: 1000;
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto 28px auto;
     background-color: var(--color-elements);
     border: 1px solid var(--color-border);
@@ -120,7 +120,6 @@ nav {
 /* --- CONTENEDOR Y TARJETAS DE GRÁFICAS --- */
 .charts-wrapper {
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -235,7 +234,6 @@ nav {
 
 .panel-layout {
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
 }
 
@@ -250,7 +248,7 @@ nav {
     color: var(--text);
     font-size: 100%;
     line-height: 1.4;
-    font-family: var(--font-body);
+    font-family: var(--font-title);
 }
 
 .panel [hidden] {
@@ -258,16 +256,20 @@ nav {
 }
 
 .panel h2 {
-    font-size: 160%;
+    font-size: 150%;
+    font-weight: 700;
 }
 
 .panel h3,
 .insignia,
-.calidad-valor {
+.recibido {
     font-size: 125%;
+    font-weight: 600;
 }
 
 .texto-pequeno,
+.perdidos,
+.crc,
 .vista-actual,
 .nodos-barra,
 .consola-columnas,
@@ -275,22 +277,21 @@ nav {
 .fila-detalle,
 .aviso {
     font-size: 87.5%;
+    font-weight: 400;
 }
 
-.panel h2,
-.panel h3,
 .btn,
-.insignia,
-.calidad-valor,
 .nodos-barra,
-.vista-actual,
 .consola-columnas,
 .antena-activa,
 .estado-ok,
 .estado-revisar,
 .estado-fallo {
-    font-family: var(--font-title);
     font-weight: 600;
+}
+
+.fila-resumen {
+    font-variant-numeric: tabular-nums;
 }
 
 .estado-barra,
@@ -418,7 +419,18 @@ nav {
     gap: 8px;
 }
 
-.calidad-valor,
+.recibido {
+    color: var(--text);
+}
+
+.perdidos {
+    color: var(--warn);
+}
+
+.crc {
+    color: var(--error);
+}
+
 .antena-activa {
     color: var(--accent);
 }
@@ -460,12 +472,33 @@ nav {
     margin-left: auto;
 }
 
-.nodo-activo {
-    border-bottom: 2px solid var(--accent);
+.nodo-punto {
+    display: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 8px;
+    flex-shrink: 0;
 }
 
-.nodo-alerta {
-    background: rgba(238, 122, 138, 0.12);
+.nodo-ok .nodo-punto {
+    display: inline-block;
+    background-color: var(--ok);
+}
+
+.nodo-aviso .nodo-punto {
+    display: inline-block;
+    background-color: var(--warn);
+}
+
+.nodo-alerta .nodo-punto {
+    display: inline-block;
+    background-color: var(--error);
+}
+
+.nodo-activo {
+    color: var(--accent);
+    background: rgba(197, 147, 102, 0.12);
 }
 
 .consola {
@@ -579,6 +612,10 @@ nav {
 
 .panel-pantalla-completa .consola-lista {
     max-height: none;
+}
+
+.panel-pantalla-completa #btn-historial {
+    display: none;
 }
 
 @media (max-width: 639px) {

@@ -19,26 +19,26 @@
 
 <body>
     <header>
-        <nav class="navbar">
+        <nav class="navbar" aria-label="Navegación principal">
             <a href="#">
-                <img class="nav-logo" src="images/logo_nav.png" alt="" srcset="">
+                <img class="nav-logo" src="images/logo_nav.png" alt="Logo Zenith">
             </a>
             <ul class="nav-links">
-                <li><a href="#" class="active">Inicio</a></li>
-                <li><a href="">Equipo</a></li>
-                <li><a href="">Lanzamiento</a></li>
-                <li><a href="">Noticias</a></li>
-                <li><a href="">Contacto</a></li>
+                <li><a href="#" class="active" aria-current="page">Inicio</a></li>
+                <li><a href="#">Equipo</a></li>
+                <li><a href="#">Lanzamiento</a></li>
+                <li><a href="#">Noticias</a></li>
+                <li><a href="#">Contacto</a></li>
             </ul>
         </nav>
     </header>
 
-    <div class="selector-antena">
-        <button class="antenna-btn" data-antena="antena1">Estación 1</button>
-        <button class="antenna-btn" data-antena="antena2">Estación 2</button>
-        <button class="antenna-btn" data-antena="antena3">Estación 3</button>
-        <button class="antenna-btn active" data-antena="sonda">Sonda</button>
-    </div>
+    <section class="selector-antena" aria-label="Selector de antena">
+        <button type="button" class="antenna-btn" data-antena="antena1">Estación 1</button>
+        <button type="button" class="antenna-btn" data-antena="antena2">Estación 2</button>
+        <button type="button" class="antenna-btn" data-antena="antena3">Estación 3</button>
+        <button type="button" class="antenna-btn active" data-antena="sonda">Sonda</button>
+    </section>
 
 
     <main class="panel-layout">
@@ -69,44 +69,49 @@
                             <p id="ultimo-paquete" class="texto-pequeno">Último paquete: 14:05:30 (hace 2 s)</p>
                         </div>
                         <div class="estado-celda">
-                            <p class="texto-pequeno">Conexión</p>
-                            <p id="calidad-valor" class="calidad-valor">95 %</p>
-                            <p id="contadores-paquetes" class="texto-pequeno">Recibidos 57 · Perdidos 3 · CRC 1</p>
+                            <p class="texto-pequeno">Paquetes</p>
+                            <p class="recibido">Recibidos 57</p>
+                            <p class="perdidos">Perdidos 3</p>
+                            <p class="crc">CRC 1</p>
                         </div>
                     </div>
 
                     <ul class="nodos-barra" aria-label="Estado de las antenas">
-                        <li data-antena="estacion1">
+                        <li class="nodo-ok" data-antena="estacion1">
                             <svg class="icono icono-sm" aria-hidden="true">
                                 <use href="#i-antena" />
                             </svg>
-                            Estación 1 <small class="estado-ok">OK</small>
+                            Estación 1
+                            <span class="nodo-punto" aria-hidden="true"></span>
                         </li>
-                        <li data-antena="estacion2">
+                        <li class="nodo-ok" data-antena="estacion2">
                             <svg class="icono icono-sm" aria-hidden="true">
                                 <use href="#i-antena" />
                             </svg>
-                            Estación 2 <small class="estado-ok">OK</small>
+                            Estación 2
+                            <span class="nodo-punto" aria-hidden="true"></span>
                         </li>
                         <li class="nodo-alerta" data-antena="estacion3">
                             <svg class="icono icono-sm" aria-hidden="true">
                                 <use href="#i-antena" />
                             </svg>
-                            Estación 3 <small class="estado-fallo">Fallo</small>
+                            Estación 3
+                            <span class="nodo-punto" aria-hidden="true"></span>
                         </li>
                         <li class="nodo-activo" data-antena="sonda" aria-current="true">
                             <svg class="icono icono-sm" aria-hidden="true">
                                 <use href="#i-antena" />
                             </svg>
-                            Sonda <small class="antena-activa">Activa</small>
+                            Sonda
+                            <span class="nodo-punto" aria-hidden="true"></span>
                         </li>
                     </ul>
 
-                    <div class="consola">
-                        <h3>Consola de recepción</h3>
+                    <section class="consola" aria-labelledby="titulo-consola">
+                        <h3 id="titulo-consola">Consola de recepción</h3>
 
                         <div class="consola-caja">
-                            <div class="barra-acciones">
+                            <div class="barra-acciones" role="toolbar" aria-label="Acciones de la consola">
                                 <button type="button" id="btn-pausar" class="btn" aria-pressed="false">Pausar</button>
                                 <button type="button" id="btn-limpiar" class="btn">Limpiar</button>
                                 <details class="desplegable">
@@ -205,30 +210,30 @@
                         </div>
 
                         <button type="button" id="btn-historial" class="btn">Ver historial completo</button>
-                    </div>
+                    </section>
                 </section>
             </div>
 
             <div class="col-lg-6">
                 <!-- CONTENEDOR EXCLUSIVO DE GRÁFICAS -->
-                <div class="charts-wrapper">
+                <section class="charts-wrapper" aria-label="Gráficas de telemetría">
 
                     <!-- Gráfica de Líneas -->
-                    <div class="chart-card">
+                    <article class="chart-card">
                         <h3 class="chart-title">Evolución Temporal: R2 Data vs R1 Baseline</h3>
                         <div class="chart-container">
                             <canvas id="lineChart"></canvas>
                         </div>
-                    </div>
+                    </article>
 
                     <!-- Gráfica de Barras -->
-                    <div class="chart-card">
+                    <article class="chart-card">
                         <h3 class="chart-title">Métricas Acumuladas por Intervalo</h3>
                         <div class="chart-container bar-height">
                             <canvas id="barChart"></canvas>
                         </div>
-                    </div>
-                </div>
+                    </article>
+                </section>
             </div>
         </div>
     </main>

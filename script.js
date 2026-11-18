@@ -284,8 +284,9 @@ const desplegableExportar = document.querySelector('.desplegable');
 const estadoConexion = document.getElementById('estado-conexion');
 const estadoTexto = document.getElementById('estado-texto');
 const ultimoPaqueteEl = document.getElementById('ultimo-paquete');
-const calidadValorEl = document.getElementById('calidad-valor');
-const contadoresEl = document.getElementById('contadores-paquetes');
+const recibidoEl = document.querySelector('.recibido');
+const perdidosEl = document.querySelector('.perdidos');
+const crcEl = document.querySelector('.crc');
 const antenaSeleccionadaEl = document.getElementById('antena-seleccionada');
 const consolaListaEl = document.getElementById('consola-lista');
 const avisosListaEl = document.getElementById('avisos-lista');
@@ -532,24 +533,25 @@ function actualizarPanelDesdePython(panel) {
         ultimoPaqueteEl.textContent = `Último paquete: ${panel.ultimoPaquete}`;
     }
 
-    if (calidadValorEl && panel.calidad) {
-        calidadValorEl.textContent = panel.calidad;
+    if (recibidoEl && panel.recibidos !== undefined) {
+        recibidoEl.textContent = `Recibidos ${panel.recibidos}`;
     }
 
-    if (contadoresEl && panel.recibidos !== undefined) {
-        contadoresEl.textContent = `Recibidos ${panel.recibidos} · Perdidos ${panel.perdidos} · CRC ${panel.crc}`;
+    if (perdidosEl && panel.perdidos !== undefined) {
+        perdidosEl.textContent = `Perdidos ${panel.perdidos}`;
+    }
+
+    if (crcEl && panel.crc !== undefined) {
+        crcEl.textContent = `CRC ${panel.crc}`;
     }
 
     if (Array.isArray(panel.antenas)) {
         panel.antenas.forEach(ant => {
             const li = document.querySelector(`.nodos-barra li[data-antena="${ant.id}"]`);
             if (!li) return;
+            li.classList.toggle('nodo-ok', ant.tipo === 'ok');
+            li.classList.toggle('nodo-aviso', ant.tipo === 'revisar' || ant.tipo === 'aviso');
             li.classList.toggle('nodo-alerta', ant.tipo === 'fallo');
-            const small = li.querySelector('small');
-            if (small) {
-                small.className = clasePorTipo(ant.tipo);
-                small.textContent = ant.estado;
-            }
         });
     }
 
