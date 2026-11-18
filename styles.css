@@ -20,12 +20,15 @@ body {
     font-family: 'Times New Roman', Times, serif;
     padding: 20px;
     font-size: var(--text-size);
+    flex-direction: column;   /* Distribuye los elementos en columna */
+    min-height: 100vh;        /* Obliga a ocupar toda la pantalla */
+    display: flex;
 }
 
 
 /* NAV */
 nav {
-    max-width: 1200px;
+    width: 100%;             /* Asegura el ancho total para que no se encoja */
     margin: 0 auto 16px auto;
     background-color: var(--color-elements);
     border-radius: 8px;
@@ -33,16 +36,20 @@ nav {
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;          /* Impide que Flexbox comprima la barra de navegación */
 }
 
 .nav-logo {
-    width: 10%;
+    width: 25%;
 }
-
+nav ul li {
+    font-size: 1.3rem;
+}
 .nav-links {
     list-style: none;
     display: flex;
     gap: 45px;
+    margin: 0 50px 0 250px ;
 }
 
 .nav-links a {
@@ -73,7 +80,7 @@ nav {
     position: sticky;
     top: 15px;
     z-index: 1000;
-    max-width: 1200px;
+    width: 100%;             /* Asegura que ocupe todo el ancho disponible */
     margin: 0 auto 28px auto;
     background-color: var(--color-elements);
     border: 1px solid var(--color-border);
@@ -81,8 +88,8 @@ nav {
     padding: 15px 12px;
     display: flex;
     gap: 12px;
+    flex-shrink: 0;          /* Evita que flexbox lo reduzca o encoga */
 }
-
 .antenna-btn {
     flex: 1;
     padding: 13px 20px;
@@ -105,6 +112,8 @@ nav {
     display: flex;
     flex-direction: column;
     gap: 24px; /* Espaciado normalizado según guía (24 px) */
+    position: sticky;
+    top: 15px;
 }
 
 /* Tarjeta o panel oficial Zenith (#252F3F, radio 16px, relleno 24px, borde 1px #C59366 al 35%) */
@@ -132,7 +141,7 @@ nav {
 }
 
 .bar-height {
-    height: 160px;
+    height: 200px;
 }
 
 
@@ -568,24 +577,26 @@ nav {
 }
 
 .footer-zenith {
-    background-color: var(--color-ink, #11161F); /* Fondo Negro tinta oficial */
+    background-color: var(--color-ink, #11161F);
     color: var(--color-text, #E9E7F5);
-    border-top: 1px solid rgba(197, 147, 102, 0.35); /* Filete fino cobre al 35% */
-    padding: 24px; /* Espaciado normalizado de la guía */
-    margin-top: 48px; /* Separación de grupo según guía */
-    font-family: var(--font-body, 'Redaction 10', 'Times New Roman', serif);
-    font-size: 0.875rem; /* 87,5% (texto pequeño para pie de página) */
-    line-height: 1.5;
+    border-top: 1px solid rgba(197, 147, 102, 0.35);
+    padding: 24px;
+    margin-top: 20px;         /* Lo ancla rígidamente al fondo */
+    margin-left: -20px;       /* Anula los 20px de padding del body a la izquierda */
+    margin-right: -20px;      /* Anula los 20px de padding del body a la derecha */
+    margin-bottom: -20px;     /* Anula los 20px de padding del body abajo */
+    width: calc(100% + 40px); /* Extiende el ancho de lado a lado real */
 }
 
 .footer-contenedor {
-    max-width: 1200px; /* Ancho máximo oficial de la guía */
-    margin: 0 auto;
+    max-width: 100%; /* Ancho máximo oficial de la guía */
+    margin: 0;
     display: flex;
     justify-content: space-between;
     align-items: center;
     flex-wrap: wrap;
-    gap: 24px;
+    margin-bottom: 0;
+
 }
 
 .footer-logos {
