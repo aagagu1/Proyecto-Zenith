@@ -130,15 +130,12 @@ function connectWebSocket() {
         }
 
         // 3. Pintar en la gráfica superior ÚNICAMENTE los 7 campos subrayados en azul[cite: 11, 12]
+        // 3. Pintar en la gráfica superior: Temperatura, Humedad y Presión
         if (typeof lineChart !== 'undefined') {
             lineChart.data.labels.push(currentTimeStr);
             lineChart.data.datasets[0].data.push(tempC ?? null);
             lineChart.data.datasets[1].data.push(humRh ?? null);
-            lineChart.data.datasets[2].data.push(pm1 ?? null);
-            lineChart.data.datasets[3].data.push(pm25 ?? null);
-            lineChart.data.datasets[4].data.push(pm4 ?? null);
-            lineChart.data.datasets[5].data.push(pm10 ?? null);
-            lineChart.data.datasets[6].data.push(pressHpa ?? null);
+            lineChart.data.datasets[2].data.push(pressHpa ?? null);
 
             if (lineChart.data.labels.length > MAX_CHART_POINTS) {
                 lineChart.data.labels.shift();

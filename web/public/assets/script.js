@@ -5,6 +5,7 @@
 // Gráfica de Líneas
 // Gráfica de Líneas (Solo los 7 campos subrayados en azul)
 // Gráfica de Líneas (Clara, con ejes etiquetados y 8 puntos en horizontal)
+// Gráfica de Líneas (Solo Temperatura, Humedad y Presión, 8 puntos visibles)
 const ctxLine = document.getElementById('lineChart').getContext('2d');
 const lineChart = new Chart(ctxLine, {
     type: 'line',
@@ -12,12 +13,12 @@ const lineChart = new Chart(ctxLine, {
         labels: [],
         datasets: [
             { 
-                label: 'Temp. (°C)', 
+                label: 'Temperatura (°C)', 
                 data: [], 
                 borderColor: '#C59366', 
                 backgroundColor: '#C59366', 
                 borderWidth: 2.5,
-                pointRadius: 3,
+                pointRadius: 3.5,
                 tension: 0.3,
                 yAxisID: 'y'
             },
@@ -27,47 +28,7 @@ const lineChart = new Chart(ctxLine, {
                 borderColor: '#339AF0', 
                 backgroundColor: '#339AF0', 
                 borderWidth: 2.5,
-                pointRadius: 3,
-                tension: 0.3,
-                yAxisID: 'y'
-            },
-            { 
-                label: 'PM 1.0', 
-                data: [], 
-                borderColor: '#5FBF8F', 
-                backgroundColor: '#5FBF8F', 
-                borderWidth: 2,
-                pointRadius: 2.5,
-                tension: 0.3,
-                yAxisID: 'y'
-            },
-            { 
-                label: 'PM 2.5', 
-                data: [], 
-                borderColor: '#94D82D', 
-                backgroundColor: '#94D82D', 
-                borderWidth: 2,
-                pointRadius: 2.5,
-                tension: 0.3,
-                yAxisID: 'y'
-            },
-            { 
-                label: 'PM 4.0', 
-                data: [], 
-                borderColor: '#E0B85C', 
-                backgroundColor: '#E0B85C', 
-                borderWidth: 2,
-                pointRadius: 2.5,
-                tension: 0.3,
-                yAxisID: 'y'
-            },
-            { 
-                label: 'PM 10.0', 
-                data: [], 
-                borderColor: '#FF922B', 
-                backgroundColor: '#FF922B', 
-                borderWidth: 2,
-                pointRadius: 2.5,
+                pointRadius: 3.5,
                 tension: 0.3,
                 yAxisID: 'y'
             },
@@ -77,8 +38,8 @@ const lineChart = new Chart(ctxLine, {
                 borderColor: '#20C997', 
                 backgroundColor: '#20C997', 
                 borderDash: [5, 4],
-                borderWidth: 1.5,
-                pointRadius: 2,
+                borderWidth: 2,
+                pointRadius: 3,
                 tension: 0.3,
                 yAxisID: 'yPresion'
             }
@@ -87,16 +48,13 @@ const lineChart = new Chart(ctxLine, {
     options: {
         responsive: true,
         maintainAspectRatio: false,
-        interaction: {
-            mode: 'index',
-            intersect: false
-        },
+        interaction: { mode: 'index', intersect: false },
         plugins: {
             legend: { 
                 labels: { 
                     color: '#E9E7F5', 
                     font: { family: 'Inter', size: 11 },
-                    boxWidth: 10,
+                    boxWidth: 12,
                     padding: 12
                 } 
             },
@@ -110,16 +68,11 @@ const lineChart = new Chart(ctxLine, {
         },
         scales: {
             x: { 
-                ticks: { 
-                    color: '#9BA3B4', 
-                    font: { family: 'Inter', size: 11 },
-                    maxRotation: 0, // Horas horizontales sin inclinarse
-                    autoSkip: false
-                }, 
+                ticks: { color: '#9BA3B4', font: { family: 'Inter', size: 11 }, maxRotation: 0 }, 
                 grid: { color: 'rgba(233, 231, 245, 0.08)' },
                 title: {
                     display: true,
-                    text: 'Hora de recepción (últimos 8 paquetes)',
+                    text: 'Hora de recepción',
                     color: '#9BA3B4',
                     font: { family: 'Inter', size: 11, weight: '600' }
                 }
@@ -127,11 +80,13 @@ const lineChart = new Chart(ctxLine, {
             y: { 
                 type: 'linear',
                 position: 'left',
-                ticks: { color: '#E9E7F5', font: { family: 'Inter', size: 11 } }, 
+                suggestedMin: 0,
+                suggestedMax: 100,
+                ticks: { color: '#E9E7F5', font: { family: 'Inter', size: 11 }, maxTicksLimit: 6 }, 
                 grid: { color: 'rgba(233, 231, 245, 0.08)' },
                 title: {
                     display: true,
-                    text: 'Temp (°C) · Hum (%) · PM (µg/m³)',
+                    text: 'Temp (°C) · Humedad (%)',
                     color: '#E9E7F5',
                     font: { family: 'Inter', size: 11, weight: '600' }
                 }
@@ -139,11 +94,13 @@ const lineChart = new Chart(ctxLine, {
             yPresion: {
                 type: 'linear',
                 position: 'right',
-                ticks: { color: '#20C997', font: { family: 'Inter', size: 11 } },
+                min: 990,
+                max: 1035,
+                ticks: { color: '#20C997', font: { family: 'Inter', size: 11 }, maxTicksLimit: 5 },
                 grid: { drawOnChartArea: false },
                 title: {
                     display: true,
-                    text: 'Presión atmosférica (hPa)',
+                    text: 'Presión (hPa)',
                     color: '#20C997',
                     font: { family: 'Inter', size: 11, weight: '600' }
                 }

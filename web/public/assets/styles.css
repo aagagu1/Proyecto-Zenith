@@ -616,6 +616,13 @@ nav ul li {
     gap: 1.5rem;
 }
 
+@media (min-width: 62rem) {
+    .charts-wrapper {
+        position: sticky;
+        top: 5.25rem;
+    }
+}
+
 .chart-card {
     display: flex;
     flex-direction: column;
