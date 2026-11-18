@@ -1,5 +1,5 @@
 // ==========================================================
-// 1. INICIALIZACIÓN DE LAS GRÁFICAS (CONECTADAS A PYTHON)
+// 1. INICIALIZACIÓN DE LAS GRÁFICAS
 // ==========================================================
 
 // Gráfica de Líneas
@@ -7,7 +7,7 @@ const ctxLine = document.getElementById('lineChart').getContext('2d');
 const lineChart = new Chart(ctxLine, {
     type: 'line',
     data: {
-        labels: [], // Se alimenta dinámicamente desde el JSON de Python
+        labels: [],
         datasets: [
             { 
                 label: 'Evolución (Principal)', 
@@ -22,7 +22,7 @@ const lineChart = new Chart(ctxLine, {
                 data: [], 
                 borderColor: '#E9E7F5', 
                 backgroundColor: '#616161', 
-                borderDash: [5, 5], // Serie de referencia discontinua según guía
+                borderDash: [5, 5],
                 borderWidth: 2, 
                 tension: 0.3 
             }
@@ -37,7 +37,7 @@ const lineChart = new Chart(ctxLine, {
         scales: {
             x: { 
                 ticks: { color: '#908E9C', font: { size: 11 } }, 
-                grid: { color: 'rgba(233, 231, 245, 0.12)' } // Cuadrícula al 12% según guía
+                grid: { color: 'rgba(233, 231, 245, 0.12)' }
             },
             y: { 
                 ticks: { color: '#908E9C', font: { size: 11 } }, 
@@ -52,12 +52,12 @@ const ctxBar = document.getElementById('barChart').getContext('2d');
 const barChart = new Chart(ctxBar, {
     type: 'bar',
     data: {
-        labels: [], // Se alimenta dinámicamente desde el JSON de Python
+        labels: [],
         datasets: [
             { 
                 label: 'Antena (Principal)', 
                 data: [], 
-                backgroundColor: '#E9E7F5', // Barra destacada según guía
+                backgroundColor: '#E9E7F5',
                 borderWidth: 1 
             },
             { 
@@ -87,56 +87,13 @@ const barChart = new Chart(ctxBar, {
     }
 });
 
-// ========================================================
-// 3. DATOS POR ANTENA Y EVENTOS DE LOS BOTONES
-// ========================================================
-
-const datosPorAntena = {
-    antena1: {
-        lineR2: [45, 60, 52, 40, 75, 105, 78, 85, 50, 98, 70],
-        lineR1: [50, 48, 65, 42, 60, 95, 108, 75, 82, 68, 100],
-        barValues: [60, 85, 80, 110, 50, 75, 105, 140]
-    },
-    antena2: {
-        lineR2: [30, 45, 40, 55, 62, 70, 65, 72, 68, 75, 80],
-        lineR1: [35, 38, 42, 48, 50, 58, 60, 64, 62, 69, 71],
-        barValues: [40, 55, 60, 75, 45, 62, 80, 95]
-    },
-    antena3: {
-        lineR2: [80, 85, 92, 88, 95, 115, 110, 120, 105, 130, 125],
-        lineR1: [70, 72, 78, 75, 82, 90, 95, 98, 92, 105, 110],
-        barValues: [90, 110, 105, 135, 85, 115, 130, 160]
-    }
-};
-
-let antenaActual = 'antena1';
-
-// Control de clics en los botones
-const antennaBtns = document.querySelectorAll('.antenna-btn');
-
-antennaBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // 1. Cambiar la clase 'active' visualmente
-        antennaBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        // 2. Obtener qué antena se pulsó (antena1, antena2 o antena3)
-        antenaActual = btn.getAttribute('data-antena');
-
-        // 3. Reutilizar tu función para pintar los datos de esa antena
-        actualizarGraficasDesdePython(datosPorAntena[antenaActual]);
-    });
-});
-
-// ========================================================
-// FUNCIÓN PARA ACTUALIZAR CON LOS DATOS QUE LLEGUEN DE PYTHON
-// ========================================================
 function actualizarGraficasDesdePython(nuevosDatos) {
+    if (!nuevosDatos) return;
+
     if (nuevosDatos.labels) {
         lineChart.data.labels = nuevosDatos.labels;
         barChart.data.labels = nuevosDatos.labels;
     }
-
     if (nuevosDatos.lineR2) {
         lineChart.data.datasets[0].data = nuevosDatos.lineR2;
     }
@@ -154,129 +111,18 @@ function actualizarGraficasDesdePython(nuevosDatos) {
     barChart.update();
 }
 
-
 // ==========================================================
-// 3. CONEXIÓN CON EL FLUJO DE PYTHON (LECTURA DE ARCHIVO LOCAL)
+// 2. PANEL DE CONTROL Y SELECTOR DE ESTACIONES
 // ==========================================================
-function obtenerDatosLocalesPython() {
-    fetch('datos.json')
-        .then(response => {
-            if (!response.ok) throw new Error("No se pudo cargar el archivo de datos");
-            return response.json();
-        })
-        .then(data => {
-            actualizarGraficasDesdePython(data);
-        })
-        .catch(error => {
-            console.log("Esperando flujo de datos desde Python...", error);
-        });
-}
-
-// Consultar los datos nuevos de Python cada 2 segundos automáticamente
-setInterval(obtenerDatosLocalesPython, 2000);
-/* Panel de Control y Recepción */
-const datosRespaldoPanel = {
-    paquetes: [
-        {
-            antena: 'sonda',
-            hora: '14:05:30',
-            id: '#1031',
-            temp: '-12,3 °C',
-            pm25: '2,1 µg/m³',
-            estado: 'OK',
-            tipoEstado: 'ok',
-            humedad: '31,5 % HR',
-            presion: '54.020 Pa',
-            bateria: '3650 mV',
-            pm1: '1,4 µg/m³',
-            pm4: '2,6 µg/m³',
-            pm10: '3,0 µg/m³'
-        },
-        {
-            antena: 'sonda',
-            hora: '14:05:27',
-            id: '#1030',
-            temp: '-11,8 °C',
-            pm25: '--',
-            estado: 'Incompleto',
-            tipoEstado: 'revisar',
-            humedad: '31,9 % HR',
-            presion: '55.110 Pa',
-            bateria: '3650 mV',
-            pm1: '--',
-            pm4: '--',
-            pm10: '--'
-        },
-        {
-            antena: 'sonda',
-            hora: '14:05:24',
-            id: '#1029',
-            temp: '-11,2 °C',
-            pm25: '2,5 µg/m³',
-            estado: 'Error CRC',
-            tipoEstado: 'fallo',
-            humedad: '32,4 % HR',
-            presion: '56.300 Pa',
-            bateria: '3655 mV',
-            pm1: '1,7 µg/m³',
-            pm4: '3,0 µg/m³',
-            pm10: '3,5 µg/m³'
-        },
-        {
-            antena: 'estacion1',
-            hora: '14:05:20',
-            id: '#4512',
-            temp: '18,4 °C',
-            pm25: '8,2 µg/m³',
-            estado: 'OK',
-            tipoEstado: 'ok',
-            humedad: '52,0 % HR',
-            presion: '101.240 Pa',
-            bateria: '4120 mV',
-            pm1: '5,1 µg/m³',
-            pm4: '9,4 µg/m³',
-            pm10: '11,2 µg/m³'
-        },
-        {
-            antena: 'estacion2',
-            hora: '14:05:18',
-            id: '#2204',
-            temp: '17,9 °C',
-            pm25: '7,6 µg/m³',
-            estado: 'OK',
-            tipoEstado: 'ok',
-            humedad: '54,1 % HR',
-            presion: '101.190 Pa',
-            bateria: '4090 mV',
-            pm1: '4,8 µg/m³',
-            pm4: '8,9 µg/m³',
-            pm10: '10,5 µg/m³'
-        },
-        {
-            antena: 'estacion3',
-            hora: '14:04:55',
-            id: '#0877',
-            temp: '14,2 °C',
-            pm25: '--',
-            estado: 'Error CRC',
-            tipoEstado: 'fallo',
-            humedad: '48,0 % HR',
-            presion: '98.400 Pa',
-            bateria: '3410 mV',
-            pm1: '--',
-            pm4: '--',
-            pm10: '--'
-        }
-    ]
-};
 
 let pausado = false;
 let fuenteActiva = 'sonda';
-let paquetesActuales = [...datosRespaldoPanel.paquetes];
+let paquetesActuales = [];
 let mostrarTodoHistorial = false;
 let snapshotLimpiado = '';
 const avisosDescartados = new Set();
 
+const antennaBtns = document.querySelectorAll('.antenna-btn');
 const panelControl = document.querySelector('.panel[aria-labelledby="titulo-panel"]');
 const btnPantallaCompleta = document.getElementById('btn-pantalla-completa');
 const btnPausar = document.getElementById('btn-pausar');
@@ -323,10 +169,6 @@ const nombresFuente = {
     sonda: 'Sonda'
 };
 
-if (typeof datosPorAntena !== 'undefined' && !datosPorAntena.sonda) {
-    datosPorAntena.sonda = datosPorAntena.antena1;
-}
-
 const mapaSelectorAPanel = {
     antena1: 'estacion1',
     antena2: 'estacion2',
@@ -345,10 +187,12 @@ function seleccionarFuente(idPanel) {
     fuenteActiva = idPanel;
     const idSelector = mapaPanelASelector[idPanel] || idPanel;
 
+    // 1. Marcar el botón superior activo
     antennaBtns.forEach(btn => {
         btn.classList.toggle('active', btn.getAttribute('data-antena') === idSelector);
     });
 
+    // 2. Marcar la barra de nodos del panel activa
     nodosItems.forEach(n => {
         const esActiva = n.getAttribute('data-antena') === idPanel;
         n.classList.toggle('nodo-activo', esActiva);
@@ -359,13 +203,16 @@ function seleccionarFuente(idPanel) {
         }
     });
 
+    // 3. Cambiar el texto de "Antena: ..." en la consola
     if (antenaSeleccionadaEl) {
         antenaSeleccionadaEl.textContent = nombresFuente[idPanel] || idPanel;
     }
 
+    // 4. Filtrar y repintar los paquetes de esa estación
     pintarPaquetes();
 }
 
+// Eventos de clic en los botones superiores (Estación 1, 2, 3, Sonda)
 antennaBtns.forEach(btn => {
     btn.addEventListener('click', () => {
         const idSelector = btn.getAttribute('data-antena');
@@ -373,6 +220,7 @@ antennaBtns.forEach(btn => {
     });
 });
 
+// Eventos de clic en la mini-barra de nodos dentro del panel
 nodosItems.forEach(item => {
     item.addEventListener('click', () => {
         seleccionarFuente(item.getAttribute('data-antena'));
@@ -447,8 +295,7 @@ function clasePorTipo(tipo) {
 }
 
 function obtenerPaquetesVisibles() {
-    const filtrados = paquetesActuales.filter(p => !p.antena || p.antena === fuenteActiva);
-    return filtrados.length > 0 ? filtrados : paquetesActuales;
+    return paquetesActuales.filter(p => !p.antena || p.antena === fuenteActiva);
 }
 
 function pintarPaquetes() {
@@ -524,54 +371,6 @@ function pintarAvisos(avisos) {
     });
 }
 
-function actualizarPanelDesdePython(panel) {
-    if (!panel) return;
-
-    if (!pausado && estadoConexion && estadoTexto && panel.estado) {
-        const esFallo = panel.estado.toLowerCase().includes('desconect') || panel.estado.toLowerCase().includes('error');
-        estadoConexion.className = esFallo ? 'insignia estado-fallo' : 'insignia estado-ok';
-        estadoTexto.textContent = panel.estado;
-    }
-
-    if (ultimoPaqueteEl && panel.ultimoPaquete) {
-        ultimoPaqueteEl.textContent = `Último paquete: ${panel.ultimoPaquete}`;
-    }
-
-    if (calidadValorEl && panel.calidad) {
-        calidadValorEl.textContent = panel.calidad;
-    }
-
-    if (contadoresEl && panel.recibidos !== undefined) {
-        contadoresEl.textContent = `Recibidos ${panel.recibidos} · Perdidos ${panel.perdidos} · CRC ${panel.crc}`;
-    }
-
-    if (Array.isArray(panel.antenas)) {
-        panel.antenas.forEach(ant => {
-            const li = document.querySelector(`.nodos-barra li[data-antena="${ant.id}"]`);
-            if (!li) return;
-            li.classList.toggle('nodo-alerta', ant.tipo === 'fallo');
-            const small = li.querySelector('small');
-            if (small) {
-                small.className = clasePorTipo(ant.tipo);
-                small.textContent = ant.estado;
-            }
-        });
-    }
-
-    if (Array.isArray(panel.paquetes)) {
-        const nuevoSnapshot = JSON.stringify(panel.paquetes);
-        if (nuevoSnapshot !== snapshotLimpiado) {
-            snapshotLimpiado = '';
-            paquetesActuales = panel.paquetes;
-            pintarPaquetes();
-        }
-    }
-
-    if (Array.isArray(panel.avisos)) {
-        pintarAvisos(panel.avisos);
-    }
-}
-
 document.querySelectorAll('#avisos-lista .btn-cerrar').forEach(btn => {
     btn.addEventListener('click', () => {
         const aviso = btn.closest('.aviso');
@@ -579,19 +378,5 @@ document.querySelectorAll('#avisos-lista .btn-cerrar').forEach(btn => {
     });
 });
 
-function obtenerDatosPanel() {
-    if (pausado) return;
-
-    fetch('datos.json')
-        .then(response => {
-            if (!response.ok) throw new Error('Sin datos.json');
-            return response.json();
-        })
-        .then(data => {
-            actualizarPanelDesdePython(data.panel);
-        })
-        .catch(() => {});
-}
-
-obtenerDatosPanel();
-setInterval(obtenerDatosPanel, 2000);
+// Arrancar la consola limpia desde el primer momento
+pintarPaquetes();

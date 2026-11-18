@@ -130,79 +130,9 @@
                             </div>
 
                             <div id="consola-lista" class="consola-lista" role="region" aria-label="Paquetes recibidos">
-                                <details class="fila-paquete" open>
-                                    <summary class="fila-resumen">
-                                        <span>14:05:30</span>
-                                        <span>#1031</span>
-                                        <span>-12,3 °C</span>
-                                        <span>2,1 µg/m³</span>
-                                        <span class="estado-ok">OK</span>
-                                    </summary>
-                                    <div class="fila-detalle">
-                                        <span>Humedad: <strong>31,5 % HR</strong></span>
-                                        <span>Presión: <strong>54.020 Pa</strong></span>
-                                        <span>Batería: <strong>3650 mV</strong></span>
-                                        <span>PM1.0: <strong>1,4 µg/m³</strong></span>
-                                        <span>PM4.0: <strong>2,6 µg/m³</strong></span>
-                                        <span>PM10: <strong>3,0 µg/m³</strong></span>
-                                    </div>
-                                </details>
-
-                                <details class="fila-paquete">
-                                    <summary class="fila-resumen">
-                                        <span>14:05:27</span>
-                                        <span>#1030</span>
-                                        <span>-11,8 °C</span>
-                                        <span>--</span>
-                                        <span class="estado-revisar">Incompleto</span>
-                                    </summary>
-                                    <div class="fila-detalle">
-                                        <span>Humedad: <strong>31,9 % HR</strong></span>
-                                        <span>Presión: <strong>55.110 Pa</strong></span>
-                                        <span>Batería: <strong>3650 mV</strong></span>
-                                        <span>PM1.0: <strong>--</strong></span>
-                                        <span>PM4.0: <strong>--</strong></span>
-                                        <span>PM10: <strong>--</strong></span>
-                                    </div>
-                                </details>
-
-                                <details class="fila-paquete">
-                                    <summary class="fila-resumen">
-                                        <span>14:05:24</span>
-                                        <span>#1029</span>
-                                        <span>-11,2 °C</span>
-                                        <span>2,5 µg/m³</span>
-                                        <span class="estado-fallo">Error CRC</span>
-                                    </summary>
-                                    <div class="fila-detalle">
-                                        <span>Humedad: <strong>32,4 % HR</strong></span>
-                                        <span>Presión: <strong>56.300 Pa</strong></span>
-                                        <span>Batería: <strong>3655 mV</strong></span>
-                                        <span>PM1.0: <strong>1,7 µg/m³</strong></span>
-                                        <span>PM4.0: <strong>3,0 µg/m³</strong></span>
-                                        <span>PM10: <strong>3,5 µg/m³</strong></span>
-                                    </div>
-                                </details>
                             </div>
 
                             <div id="avisos-lista" class="avisos">
-                                <div class="aviso" role="alert">
-                                    <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <path d="M15 9l-6 6M9 9l6 6" />
-                                    </svg>
-                                    <p><strong class="estado-fallo">Error en Estación 3:</strong> paquete #0877 con CRC
-                                        incorrecto.</p>
-                                    <button type="button" class="btn btn-cerrar" aria-label="Descartar aviso">✕</button>
-                                </div>
-                                <div class="aviso" role="status">
-                                    <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path d="M12 3L2 21h20L12 3zM12 10v5M12 18h.01" />
-                                    </svg>
-                                    <p><strong class="estado-revisar">Aviso en Estación 1:</strong> se han perdido 2
-                                        paquetes (#4510 y #4511).</p>
-                                    <button type="button" class="btn btn-cerrar" aria-label="Descartar aviso">✕</button>
-                                </div>
                             </div>
                         </div>
 
@@ -255,6 +185,8 @@
     </footer>
     <!-- Enlace al archivo JavaScript externo -->
     <script src="script.js"></script>
+    <!-- Link telemetry-ws.js para websocket-->
+     <script src="telemetry-ws.js"></script>
 </body>
 
 </html>
