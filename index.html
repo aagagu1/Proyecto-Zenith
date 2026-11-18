@@ -1,26 +1,25 @@
 <!DOCTYPE html>
 <html lang="es">
 
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Zenith — Módulo de Gráficas</title>
+    <title>Zenith — Panel de Telemetría</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap-grid.min.css">
-    <!-- Enlace al archivo CSS externo -->
+    <!-- Fuentes oficiales: Inter y Redaction 10 -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Estilos Zenith -->
     <link rel="stylesheet" href="styles.css">
     <!-- Chart.js CDN -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
 </head>
-
 
 <body>
     <header>
         <nav class="navbar" aria-label="Navegación principal">
-            <a href="#">
+            <a href="#" class="nav-brand">
                 <img class="nav-logo" src="images/logo_nav.png" alt="Logo Zenith">
             </a>
             <ul class="nav-links">
@@ -34,81 +33,61 @@
     </header>
 
     <section class="selector-antena" aria-label="Selector de antena">
-        <button type="button" class="antenna-btn" data-antena="antena1">Estación 1</button>
+        <button type="button" class="antenna-btn active" data-antena="antena1">Estación 1</button>
         <button type="button" class="antenna-btn" data-antena="antena2">Estación 2</button>
         <button type="button" class="antenna-btn" data-antena="antena3">Estación 3</button>
-        <button type="button" class="antenna-btn active" data-antena="sonda">Sonda</button>
+        <button type="button" class="antenna-btn" data-antena="sonda">Sonda</button>
     </section>
-
 
     <main class="panel-layout">
         <div class="row g-4">
             <div class="col-lg-6">
                 <section class="panel" aria-labelledby="titulo-panel">
-                    <svg hidden>
-                        <symbol id="i-antena" viewBox="0 0 24 24">
-                            <circle cx="12" cy="12" r="2" />
-                            <path d="M16.24 7.76a6 6 0 0 1 0 8.49m-8.48-.01a6 6 0 0 1 0-8.49" />
-                        </symbol>
-                    </svg>
-
                     <div class="panel-cabecera">
-                        <h2 id="titulo-panel">Panel de Control y Recepción</h2>
+                        <h2 id="titulo-panel" class="titulo-seccion">Panel de Control y Recepción</h2>
                         <button type="button" id="btn-pantalla-completa" class="btn">Pantalla completa</button>
                     </div>
 
                     <div class="estado-barra">
                         <div class="estado-celda">
                             <p class="texto-pequeno">Estado</p>
-                            <span id="estado-conexion" class="insignia estado-ok" role="status">
+                            <span id="estado-conexion" class="insignia estado-revisar" role="status">
                                 <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
                                     <path d="M2 20h.01M7 20v-4M12 20v-8M17 20V8M22 4v16" />
                                 </svg>
-                                <span id="estado-texto">Conectado</span>
+                                <span id="estado-texto">Conectando...</span>
                             </span>
-                            <p id="ultimo-paquete" class="texto-pequeno">Último paquete: 14:05:30 (hace 2 s)</p>
+                            <p id="ultimo-paquete" class="texto-pequeno">Último paquete: --</p>
                         </div>
                         <div class="estado-celda">
                             <p class="texto-pequeno">Paquetes</p>
-                            <p class="recibido">Recibidos 57</p>
-                            <p class="perdidos">Perdidos 3</p>
-                            <p class="crc">CRC 1</p>
+                            <p class="recibido">Recibidos 0</p>
+                            <p class="crc">CRC 0</p>
                         </div>
                     </div>
 
+                    <!-- Nodos: Estación 1 conectada (verde), el resto desconectados (rojo) -->
                     <ul class="nodos-barra" aria-label="Estado de las antenas">
-                        <li class="nodo-ok" data-antena="estacion1">
-                            <svg class="icono icono-sm" aria-hidden="true">
-                                <use href="#i-antena" />
-                            </svg>
-                            Estación 1
-                            <span class="nodo-punto" aria-hidden="true"></span>
+                        <li class="nodo-ok nodo-activo" data-antena="estacion1" aria-current="true">
+                            <span>Estación 1</span>
+                            <span class="nodo-punto" title="Conectada" aria-label="Conectada"></span>
                         </li>
-                        <li class="nodo-ok" data-antena="estacion2">
-                            <svg class="icono icono-sm" aria-hidden="true">
-                                <use href="#i-antena" />
-                            </svg>
-                            Estación 2
-                            <span class="nodo-punto" aria-hidden="true"></span>
+                        <li class="nodo-fallo" data-antena="estacion2">
+                            <span>Estación 2</span>
+                            <span class="nodo-punto" title="Desconectada" aria-label="Desconectada"></span>
                         </li>
-                        <li class="nodo-alerta" data-antena="estacion3">
-                            <svg class="icono icono-sm" aria-hidden="true">
-                                <use href="#i-antena" />
-                            </svg>
-                            Estación 3
-                            <span class="nodo-punto" aria-hidden="true"></span>
+                        <li class="nodo-fallo" data-antena="estacion3">
+                            <span>Estación 3</span>
+                            <span class="nodo-punto" title="Desconectada" aria-label="Desconectada"></span>
                         </li>
-                        <li class="nodo-activo" data-antena="sonda" aria-current="true">
-                            <svg class="icono icono-sm" aria-hidden="true">
-                                <use href="#i-antena" />
-                            </svg>
-                            Sonda
-                            <span class="nodo-punto" aria-hidden="true"></span>
+                        <li class="nodo-fallo" data-antena="sonda">
+                            <span>Sonda</span>
+                            <span class="nodo-punto" title="Desconectada" aria-label="Desconectada"></span>
                         </li>
                     </ul>
 
                     <section class="consola" aria-labelledby="titulo-consola">
-                        <h3 id="titulo-consola">Consola de recepción</h3>
+                        <h3 id="titulo-consola" class="titulo-seccion">Consola de recepción</h3>
 
                         <div class="consola-caja">
                             <div class="barra-acciones" role="toolbar" aria-label="Acciones de la consola">
@@ -121,7 +100,7 @@
                                         <li><button type="button" id="btn-export-json" class="btn">JSON</button></li>
                                     </ul>
                                 </details>
-                                <span class="vista-actual">Antena: <strong id="antena-seleccionada" class="antena-activa">Sonda</strong></span>
+                                <span class="vista-actual">Antena: <strong id="antena-seleccionada" class="antena-activa">Estación 1</strong></span>
                             </div>
 
                             <div class="consola-columnas" aria-hidden="true">
@@ -133,80 +112,10 @@
                             </div>
 
                             <div id="consola-lista" class="consola-lista" role="region" aria-label="Paquetes recibidos">
-                                <details class="fila-paquete" open>
-                                    <summary class="fila-resumen">
-                                        <span>14:05:30</span>
-                                        <span>#1031</span>
-                                        <span>-12,3 °C</span>
-                                        <span>2,1 µg/m³</span>
-                                        <span class="estado-ok">OK</span>
-                                    </summary>
-                                    <div class="fila-detalle">
-                                        <span>Humedad: <strong>31,5 % HR</strong></span>
-                                        <span>Presión: <strong>54.020 Pa</strong></span>
-                                        <span>Batería: <strong>3650 mV</strong></span>
-                                        <span>PM1.0: <strong>1,4 µg/m³</strong></span>
-                                        <span>PM4.0: <strong>2,6 µg/m³</strong></span>
-                                        <span>PM10: <strong>3,0 µg/m³</strong></span>
-                                    </div>
-                                </details>
-
-                                <details class="fila-paquete">
-                                    <summary class="fila-resumen">
-                                        <span>14:05:27</span>
-                                        <span>#1030</span>
-                                        <span>-11,8 °C</span>
-                                        <span>--</span>
-                                        <span class="estado-revisar">Incompleto</span>
-                                    </summary>
-                                    <div class="fila-detalle">
-                                        <span>Humedad: <strong>31,9 % HR</strong></span>
-                                        <span>Presión: <strong>55.110 Pa</strong></span>
-                                        <span>Batería: <strong>3650 mV</strong></span>
-                                        <span>PM1.0: <strong>--</strong></span>
-                                        <span>PM4.0: <strong>--</strong></span>
-                                        <span>PM10: <strong>--</strong></span>
-                                    </div>
-                                </details>
-
-                                <details class="fila-paquete">
-                                    <summary class="fila-resumen">
-                                        <span>14:05:24</span>
-                                        <span>#1029</span>
-                                        <span>-11,2 °C</span>
-                                        <span>2,5 µg/m³</span>
-                                        <span class="estado-fallo">Error CRC</span>
-                                    </summary>
-                                    <div class="fila-detalle">
-                                        <span>Humedad: <strong>32,4 % HR</strong></span>
-                                        <span>Presión: <strong>56.300 Pa</strong></span>
-                                        <span>Batería: <strong>3655 mV</strong></span>
-                                        <span>PM1.0: <strong>1,7 µg/m³</strong></span>
-                                        <span>PM4.0: <strong>3,0 µg/m³</strong></span>
-                                        <span>PM10: <strong>3,5 µg/m³</strong></span>
-                                    </div>
-                                </details>
+                                <p class="consola-vacia">Sin paquetes en la vista actual.</p>
                             </div>
 
-                            <div id="avisos-lista" class="avisos">
-                                <div class="aviso" role="alert">
-                                    <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
-                                        <circle cx="12" cy="12" r="10" />
-                                        <path d="M15 9l-6 6M9 9l6 6" />
-                                    </svg>
-                                    <p><strong class="estado-fallo">Error en Estación 3:</strong> paquete #0877 con CRC
-                                        incorrecto.</p>
-                                    <button type="button" class="btn btn-cerrar" aria-label="Descartar aviso">✕</button>
-                                </div>
-                                <div class="aviso" role="status">
-                                    <svg class="icono" viewBox="0 0 24 24" aria-hidden="true">
-                                        <path d="M12 3L2 21h20L12 3zM12 10v5M12 18h.01" />
-                                    </svg>
-                                    <p><strong class="estado-revisar">Aviso en Estación 1:</strong> se han perdido 2
-                                        paquetes (#4510 y #4511).</p>
-                                    <button type="button" class="btn btn-cerrar" aria-label="Descartar aviso">✕</button>
-                                </div>
-                            </div>
+                            <div id="avisos-lista" class="avisos"></div>
                         </div>
 
                         <button type="button" id="btn-historial" class="btn">Ver historial completo</button>
@@ -215,27 +124,18 @@
             </div>
 
             <div class="col-lg-6">
-                <!-- CONTENEDOR EXCLUSIVO DE GRÁFICAS -->
                 <section class="charts-wrapper" aria-label="Gráficas de telemetría">
-
-                        <!-- Gráfica de Líneas -->
-                        <div class="chart-card">
-                            <h3 class="chart-title">Evolución Temporal: R2 Data vs R1 Baseline</h3>
-                            <div class="chart-container">
-                                <canvas id="lineChart"></canvas>
-                            </div>
-                        </div>
                     <!-- Gráfica de Líneas -->
-                    <article class="chart-card">
-                        <h3 class="chart-title">Evolución Temporal: R2 Data vs R1 Baseline</h3>
+                    <div class="chart-card">
+                        <h3 class="chart-title titulo-seccion">Evolución Ambiental (Temperatura y Humedad)</h3>
                         <div class="chart-container">
                             <canvas id="lineChart"></canvas>
                         </div>
-                    </article>
+                    </div>
 
                     <!-- Gráfica de Barras -->
                     <article class="chart-card">
-                        <h3 class="chart-title">Métricas Acumuladas por Intervalo</h3>
+                        <h3 class="chart-title titulo-seccion">Distribución de Partículas en Suspensión (µg/m³)</h3>
                         <div class="chart-container bar-height">
                             <canvas id="barChart"></canvas>
                         </div>
@@ -245,7 +145,6 @@
         </div>
     </main>
 
-    <!-- 4. PIE DE PÁGINA (ZENITH) -->
     <footer class="footer-zenith">
         <div class="footer-contenedor">
             <div class="footer-logos">
@@ -261,9 +160,7 @@
         </div>
     </footer>
 
-    <!-- Enlace al archivo JavaScript externo -->
     <script src="script.js"></script>
-    <!-- Link telemetry-ws.js para websocket -->
     <script src="telemetry-ws.js"></script>
 </body>
 

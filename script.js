@@ -3,6 +3,8 @@
 // ==========================================================
 
 // Gráfica de Líneas
+// Gráfica de Líneas (Solo los 7 campos subrayados en azul)
+// Gráfica de Líneas (Clara, con ejes etiquetados y 8 puntos en horizontal)
 const ctxLine = document.getElementById('lineChart').getContext('2d');
 const lineChart = new Chart(ctxLine, {
     type: 'line',
@@ -10,38 +12,141 @@ const lineChart = new Chart(ctxLine, {
         labels: [],
         datasets: [
             { 
-                label: 'Evolución (Principal)', 
+                label: 'Temp. (°C)', 
                 data: [], 
                 borderColor: '#C59366', 
                 backgroundColor: '#C59366', 
-                borderWidth: 2, 
-                tension: 0.3 
+                borderWidth: 2.5,
+                pointRadius: 3,
+                tension: 0.3,
+                yAxisID: 'y'
             },
             { 
-                label: 'R1 Baseline', 
+                label: 'Humedad (% HR)', 
                 data: [], 
-                borderColor: '#E9E7F5', 
-                backgroundColor: '#616161', 
-                borderDash: [5, 5],
-                borderWidth: 2, 
-                tension: 0.3 
+                borderColor: '#339AF0', 
+                backgroundColor: '#339AF0', 
+                borderWidth: 2.5,
+                pointRadius: 3,
+                tension: 0.3,
+                yAxisID: 'y'
+            },
+            { 
+                label: 'PM 1.0', 
+                data: [], 
+                borderColor: '#5FBF8F', 
+                backgroundColor: '#5FBF8F', 
+                borderWidth: 2,
+                pointRadius: 2.5,
+                tension: 0.3,
+                yAxisID: 'y'
+            },
+            { 
+                label: 'PM 2.5', 
+                data: [], 
+                borderColor: '#94D82D', 
+                backgroundColor: '#94D82D', 
+                borderWidth: 2,
+                pointRadius: 2.5,
+                tension: 0.3,
+                yAxisID: 'y'
+            },
+            { 
+                label: 'PM 4.0', 
+                data: [], 
+                borderColor: '#E0B85C', 
+                backgroundColor: '#E0B85C', 
+                borderWidth: 2,
+                pointRadius: 2.5,
+                tension: 0.3,
+                yAxisID: 'y'
+            },
+            { 
+                label: 'PM 10.0', 
+                data: [], 
+                borderColor: '#FF922B', 
+                backgroundColor: '#FF922B', 
+                borderWidth: 2,
+                pointRadius: 2.5,
+                tension: 0.3,
+                yAxisID: 'y'
+            },
+            { 
+                label: 'Presión (hPa)', 
+                data: [], 
+                borderColor: '#20C997', 
+                backgroundColor: '#20C997', 
+                borderDash: [5, 4],
+                borderWidth: 1.5,
+                pointRadius: 2,
+                tension: 0.3,
+                yAxisID: 'yPresion'
             }
         ]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
+        interaction: {
+            mode: 'index',
+            intersect: false
+        },
         plugins: {
-            legend: { labels: { color: '#E9E7F5', font: { size: 11 } } }
+            legend: { 
+                labels: { 
+                    color: '#E9E7F5', 
+                    font: { family: 'Inter', size: 11 },
+                    boxWidth: 10,
+                    padding: 12
+                } 
+            },
+            tooltip: {
+                backgroundColor: 'rgba(17, 22, 31, 0.95)',
+                titleColor: '#C59366',
+                bodyColor: '#E9E7F5',
+                borderColor: 'rgba(197, 147, 102, 0.4)',
+                borderWidth: 1
+            }
         },
         scales: {
             x: { 
-                ticks: { color: '#908E9C', font: { size: 11 } }, 
-                grid: { color: 'rgba(233, 231, 245, 0.12)' }
+                ticks: { 
+                    color: '#9BA3B4', 
+                    font: { family: 'Inter', size: 11 },
+                    maxRotation: 0, // Horas horizontales sin inclinarse
+                    autoSkip: false
+                }, 
+                grid: { color: 'rgba(233, 231, 245, 0.08)' },
+                title: {
+                    display: true,
+                    text: 'Hora de recepción (últimos 8 paquetes)',
+                    color: '#9BA3B4',
+                    font: { family: 'Inter', size: 11, weight: '600' }
+                }
             },
             y: { 
-                ticks: { color: '#908E9C', font: { size: 11 } }, 
-                grid: { color: 'rgba(233, 231, 245, 0.12)' } 
+                type: 'linear',
+                position: 'left',
+                ticks: { color: '#E9E7F5', font: { family: 'Inter', size: 11 } }, 
+                grid: { color: 'rgba(233, 231, 245, 0.08)' },
+                title: {
+                    display: true,
+                    text: 'Temp (°C) · Hum (%) · PM (µg/m³)',
+                    color: '#E9E7F5',
+                    font: { family: 'Inter', size: 11, weight: '600' }
+                }
+            },
+            yPresion: {
+                type: 'linear',
+                position: 'right',
+                ticks: { color: '#20C997', font: { family: 'Inter', size: 11 } },
+                grid: { drawOnChartArea: false },
+                title: {
+                    display: true,
+                    text: 'Presión atmosférica (hPa)',
+                    color: '#20C997',
+                    font: { family: 'Inter', size: 11, weight: '600' }
+                }
             }
         }
     }
@@ -52,19 +157,14 @@ const ctxBar = document.getElementById('barChart').getContext('2d');
 const barChart = new Chart(ctxBar, {
     type: 'bar',
     data: {
-        labels: [],
+        labels: ['PM 1.0', 'PM 2.5', 'PM 4.0', 'PM 10'],
         datasets: [
             { 
-                label: 'Antena (Principal)', 
-                data: [], 
-                backgroundColor: '#E9E7F5',
-                borderWidth: 1 
-            },
-            { 
-                label: 'R1 Baseline', 
-                data: [], 
-                backgroundColor: '#908E9C', 
-                borderWidth: 1 
+                label: 'Concentración (µg/m³)', 
+                data: [0, 0, 0, 0], 
+                backgroundColor: '#C59366',
+                borderRadius: 4,
+                borderWidth: 0
             }
         ]
     },
@@ -76,192 +176,36 @@ const barChart = new Chart(ctxBar, {
         },
         scales: {
             x: { 
-                ticks: { color: '#908E9C', font: { size: 11 } }, 
+                ticks: { color: '#9BA3B4', font: { family: 'Inter', size: 11 } }, 
                 grid: { display: false } 
             },
             y: { 
-                ticks: { color: '#908E9C', font: { size: 11 } }, 
-                grid: { color: 'rgba(233, 231, 245, 0.12)' } 
+                ticks: { color: '#9BA3B4', font: { family: 'Inter', size: 11 } }, 
+                grid: { color: 'rgba(233, 231, 245, 0.1)' } 
             }
         }
     }
 });
 
-// ========================================================
-// 3. DATOS POR ANTENA Y EVENTOS DE LOS BOTONES
-// ========================================================
-
-const datosPorAntena = {
-    antena1: {
-        lineR2: [45, 60, 52, 40, 75, 105, 78, 85, 50, 98, 70],
-        lineR1: [50, 48, 65, 42, 60, 95, 108, 75, 82, 68, 100],
-        barValues: [60, 85, 80, 110, 50, 75, 105, 140]
-    },
-    antena2: {
-        lineR2: [30, 45, 40, 55, 62, 70, 65, 72, 68, 75, 80],
-        lineR1: [35, 38, 42, 48, 50, 58, 60, 64, 62, 69, 71],
-        barValues: [40, 55, 60, 75, 45, 62, 80, 95]
-    },
-    antena3: {
-        lineR2: [80, 85, 92, 88, 95, 115, 110, 120, 105, 130, 125],
-        lineR1: [70, 72, 78, 75, 82, 90, 95, 98, 92, 105, 110],
-        barValues: [90, 110, 105, 135, 85, 115, 130, 160]
-    }
-};
-
-let antenaActual = 'antena1';
-
-// Control de clics en los botones
-const antennaBtns = document.querySelectorAll('.antenna-btn');
-
-antennaBtns.forEach(btn => {
-    btn.addEventListener('click', () => {
-        // 1. Cambiar la clase 'active' visualmente
-        antennaBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
-
-        // 2. Obtener qué antena se pulsó (antena1, antena2 o antena3)
-        antenaActual = btn.getAttribute('data-antena');
-
-        // 3. Reutilizar tu función para pintar los datos de esa antena
-        if (datosPorAntena[antenaActual]) {
-            actualizarGraficasDesdePython(datosPorAntena[antenaActual]);
-        }
-    });
-});
-
 // ==========================================================
-// 2. FUNCIÓN DE ACTUALIZACIÓN DINÁMICA
+// 2. PANEL DE CONTROL Y SELECTOR DE ESTACIONES
 // ==========================================================
-function actualizarGraficasDesdePython(nuevosDatos) {
-    if (!nuevosDatos) return;
-
-    if (nuevosDatos.labels) {
-        lineChart.data.labels = nuevosDatos.labels;
-        barChart.data.labels = nuevosDatos.labels;
-    }
-    if (nuevosDatos.lineR2) {
-        lineChart.data.datasets[0].data = nuevosDatos.lineR2;
-    }
-    if (nuevosDatos.lineR1) {
-        lineChart.data.datasets[1].data = nuevosDatos.lineR1;
-    }
-    lineChart.update();
-
-    if (nuevosDatos.barAntena) {
-        barChart.data.datasets[0].data = nuevosDatos.barAntena;
-    } else if (nuevosDatos.barValues) {
-        barChart.data.datasets[0].data = nuevosDatos.barValues;
-    }
-    if (nuevosDatos.barBaseline) {
-        barChart.data.datasets[1].data = nuevosDatos.barBaseline;
-    }
-    barChart.update();
-}
-
-/* Panel de Control y Recepción */
-const datosRespaldoPanel = {
-    paquetes: [
-        {
-            antena: 'sonda',
-            hora: '14:05:30',
-            id: '#1031',
-            temp: '-12,3 °C',
-            pm25: '2,1 µg/m³',
-            estado: 'OK',
-            tipoEstado: 'ok',
-            humedad: '31,5 % HR',
-            presion: '54.020 Pa',
-            bateria: '3650 mV',
-            pm1: '1,4 µg/m³',
-            pm4: '2,6 µg/m³',
-            pm10: '3,0 µg/m³'
-        },
-        {
-            antena: 'sonda',
-            hora: '14:05:27',
-            id: '#1030',
-            temp: '-11,8 °C',
-            pm25: '--',
-            estado: 'Incompleto',
-            tipoEstado: 'revisar',
-            humedad: '31,9 % HR',
-            presion: '55.110 Pa',
-            bateria: '3650 mV',
-            pm1: '--',
-            pm4: '--',
-            pm10: '--'
-        },
-        {
-            antena: 'sonda',
-            hora: '14:05:24',
-            id: '#1029',
-            temp: '-11,2 °C',
-            pm25: '2,5 µg/m³',
-            estado: 'Error CRC',
-            tipoEstado: 'fallo',
-            humedad: '32,4 % HR',
-            presion: '56.300 Pa',
-            bateria: '3655 mV',
-            pm1: '1,7 µg/m³',
-            pm4: '3,0 µg/m³',
-            pm10: '3,5 µg/m³'
-        },
-        {
-            antena: 'estacion1',
-            hora: '14:05:20',
-            id: '#4512',
-            temp: '18,4 °C',
-            pm25: '8,2 µg/m³',
-            estado: 'OK',
-            tipoEstado: 'ok',
-            humedad: '52,0 % HR',
-            presion: '101.240 Pa',
-            bateria: '4120 mV',
-            pm1: '5,1 µg/m³',
-            pm4: '9,4 µg/m³',
-            pm10: '11,2 µg/m³'
-        },
-        {
-            antena: 'estacion2',
-            hora: '14:05:18',
-            id: '#2204',
-            temp: '17,9 °C',
-            pm25: '7,6 µg/m³',
-            estado: 'OK',
-            tipoEstado: 'ok',
-            humedad: '54,1 % HR',
-            presion: '101.190 Pa',
-            bateria: '4090 mV',
-            pm1: '4,8 µg/m³',
-            pm4: '8,9 µg/m³',
-            pm10: '10,5 µg/m³'
-        },
-        {
-            antena: 'estacion3',
-            hora: '14:04:55',
-            id: '#0877',
-            temp: '14,2 °C',
-            pm25: '--',
-            estado: 'Error CRC',
-            tipoEstado: 'fallo',
-            humedad: '48,0 % HR',
-            presion: '98.400 Pa',
-            bateria: '3410 mV',
-            pm1: '--',
-            pm4: '--',
-            pm10: '--'
-        }
-    ]
-};
 
 let pausado = false;
-let fuenteActiva = 'sonda';
-let paquetesActuales = [...datosRespaldoPanel.paquetes];
+let fuenteActiva = 'estacion1'; // Estación 1 seleccionada por defecto
+let paquetesActuales = [];
 let mostrarTodoHistorial = false;
-let snapshotLimpiado = '';
 const avisosDescartados = new Set();
 
+// Estado independiente de conexión y último paquete por cada sonda/estación
+const estadoFuentes = {
+    estacion1: { conectada: true,  estadoTexto: 'Conectando...', tipoEstado: 'estado-revisar', ultimoPaquete: '--' },
+    estacion2: { conectada: false, estadoTexto: 'Desconectado',  tipoEstado: 'estado-fallo',   ultimoPaquete: '--' },
+    estacion3: { conectada: false, estadoTexto: 'Desconectado',  tipoEstado: 'estado-fallo',   ultimoPaquete: '--' },
+    sonda:     { conectada: false, estadoTexto: 'Desconectado',  tipoEstado: 'estado-fallo',   ultimoPaquete: '--' }
+};
+
+const antennaBtns = document.querySelectorAll('.antenna-btn');
 const panelControl = document.querySelector('.panel[aria-labelledby="titulo-panel"]');
 const btnPantallaCompleta = document.getElementById('btn-pantalla-completa');
 const btnPausar = document.getElementById('btn-pausar');
@@ -275,7 +219,6 @@ const estadoConexion = document.getElementById('estado-conexion');
 const estadoTexto = document.getElementById('estado-texto');
 const ultimoPaqueteEl = document.getElementById('ultimo-paquete');
 const recibidoEl = document.querySelector('.recibido');
-const perdidosEl = document.querySelector('.perdidos');
 const crcEl = document.querySelector('.crc');
 const antenaSeleccionadaEl = document.getElementById('antena-seleccionada');
 const consolaListaEl = document.getElementById('consola-lista');
@@ -309,10 +252,6 @@ const nombresFuente = {
     sonda: 'Sonda'
 };
 
-if (typeof datosPorAntena !== 'undefined' && !datosPorAntena.sonda) {
-    datosPorAntena.sonda = datosPorAntena.antena1;
-}
-
 const mapaSelectorAPanel = {
     antena1: 'estacion1',
     antena2: 'estacion2',
@@ -324,8 +263,31 @@ const mapaPanelASelector = {
     estacion1: 'antena1',
     estacion2: 'antena2',
     estacion3: 'antena3',
-    sonda: 'sonda'
+    sonda: 'antena3' && 'sonda'
 };
+
+// Refresca la caja superior izquierda ("Estado" y "Último paquete") según la sonda activa
+function actualizarVistaEstadoSuperior() {
+    const info = estadoFuentes[fuenteActiva];
+    const nodoLi = document.querySelector(`.nodos-barra li[data-antena="${fuenteActiva}"]`);
+    const tienePilotoVerde = nodoLi && nodoLi.classList.contains('nodo-ok');
+
+    // Sincronizar si el piloto ya está en verde pero seguía el texto inicial
+    if (tienePilotoVerde && info && info.estadoTexto === 'Conectando...') {
+        info.conectada = true;
+        info.tipoEstado = 'estado-ok';
+        info.estadoTexto = 'Conectado';
+    }
+
+    if (!pausado && estadoConexion && estadoTexto && info) {
+        estadoConexion.className = `insignia ${info.tipoEstado}`;
+        estadoTexto.textContent = info.estadoTexto;
+    }
+
+    if (ultimoPaqueteEl && info) {
+        ultimoPaqueteEl.textContent = `Último paquete: ${info.ultimoPaquete}`;
+    }
+}
 
 function seleccionarFuente(idPanel) {
     fuenteActiva = idPanel;
@@ -349,6 +311,7 @@ function seleccionarFuente(idPanel) {
         antenaSeleccionadaEl.textContent = nombresFuente[idPanel] || idPanel;
     }
 
+    actualizarVistaEstadoSuperior();
     pintarPaquetes();
 }
 
@@ -371,17 +334,18 @@ if (btnPausar) {
         btnPausar.setAttribute('aria-pressed', String(pausado));
         btnPausar.textContent = pausado ? 'Reanudar' : 'Pausar';
 
-        if (estadoConexion && estadoTexto) {
-            estadoConexion.className = pausado ? 'insignia estado-revisar' : 'insignia estado-ok';
-            estadoTexto.textContent = pausado ? 'Pausado' : 'Conectado';
+        if (pausado && estadoConexion && estadoTexto) {
+            estadoConexion.className = 'insignia estado-revisar';
+            estadoTexto.textContent = 'Pausado';
+        } else {
+            actualizarVistaEstadoSuperior();
         }
     });
 }
 
 if (btnLimpiar && consolaListaEl) {
     btnLimpiar.addEventListener('click', () => {
-        snapshotLimpiado = JSON.stringify(paquetesActuales);
-        paquetesActuales = [];
+        paquetesActuales = paquetesActuales.filter(p => p.antena !== fuenteActiva);
         pintarPaquetes();
     });
 }
@@ -412,7 +376,7 @@ if (btnExportCsv) {
             p.antena, p.hora, p.id, p.temp, p.pm25, p.estado,
             p.humedad, p.presion, p.bateria, p.pm1, p.pm4, p.pm10
         ].map(v => `"${String(v ?? '').replace(/"/g, '""')}"`).join(','));
-        descargarArchivo([cabecera, ...lineas].join('\n'), 'zenith_telemetria.csv', 'text/csv;charset=utf-8;');
+        descargarArchivo([cabecera, ...lineas].join('\n'), `zenith_${fuenteActiva}.csv`, 'text/csv;charset=utf-8;');
         if (desplegableExportar) desplegableExportar.open = false;
     });
 }
@@ -420,7 +384,7 @@ if (btnExportCsv) {
 if (btnExportJson) {
     btnExportJson.addEventListener('click', () => {
         const filas = obtenerPaquetesVisibles();
-        descargarArchivo(JSON.stringify(filas, null, 2), 'zenith_telemetria.json', 'application/json');
+        descargarArchivo(JSON.stringify(filas, null, 2), `zenith_${fuenteActiva}.json`, 'application/json');
         if (desplegableExportar) desplegableExportar.open = false;
     });
 }
@@ -433,8 +397,7 @@ function clasePorTipo(tipo) {
 }
 
 function obtenerPaquetesVisibles() {
-    const filtrados = paquetesActuales.filter(p => !p.antena || p.antena === fuenteActiva);
-    return filtrados.length > 0 ? filtrados : paquetesActuales;
+    return paquetesActuales.filter(p => p.antena === fuenteActiva);
 }
 
 function pintarPaquetes() {
@@ -467,10 +430,10 @@ function pintarPaquetes() {
         detalle.innerHTML = `
             <span>Humedad: <strong>${p.humedad}</strong></span>
             <span>Presión: <strong>${p.presion}</strong></span>
-            <span>Batería: <strong>${p.bateria}</strong></span>
-            <span>PM1.0: <strong>${p.pm1}</strong></span>
-            <span>PM4.0: <strong>${p.pm4}</strong></span>
-            <span>PM10: <strong>${p.pm10}</strong></span>
+            <span>PM 1.0: <strong>${p.pm1}</strong></span>
+            <span>PM 2.5: <strong>${p.pm25}</strong></span>
+            <span>PM 4.0: <strong>${p.pm4}</strong></span>
+            <span>PM 10.0: <strong>${p.pm10}</strong></span>
         `;
 
         details.appendChild(summary);
@@ -479,91 +442,5 @@ function pintarPaquetes() {
     });
 }
 
-function pintarAvisos(avisos) {
-    if (!avisosListaEl || !Array.isArray(avisos)) return;
-    avisosListaEl.innerHTML = '';
-
-    avisos.forEach(a => {
-        if (avisosDescartados.has(a.id)) return;
-
-        const div = document.createElement('div');
-        div.className = 'aviso';
-        div.setAttribute('role', a.tipo === 'fallo' ? 'alert' : 'status');
-
-        const iconoSvg = a.tipo === 'fallo'
-            ? '<svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><circle cx="12" cy="12" r="10" /><path d="M15 9l-6 6M9 9l6 6" /></svg>'
-            : '<svg class="icono" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 3L2 21h20L12 3zM12 10v5M12 18h.01" /></svg>';
-
-        div.innerHTML = `
-            ${iconoSvg}
-            <p><strong class="${clasePorTipo(a.tipo)}">${a.titulo}</strong> ${a.mensaje}</p>
-            <button type="button" class="btn btn-cerrar" aria-label="Descartar aviso">✕</button>
-        `;
-
-        const btnCerrar = div.querySelector('.btn-cerrar');
-        btnCerrar.addEventListener('click', () => {
-            avisosDescartados.add(a.id);
-            div.remove();
-        });
-
-        avisosListaEl.appendChild(div);
-    });
-}
-
-function actualizarPanelDesdePython(panel) {
-    if (!panel) return;
-
-    if (!pausado && estadoConexion && estadoTexto && panel.estado) {
-        const esFallo = panel.estado.toLowerCase().includes('desconect') || panel.estado.toLowerCase().includes('error');
-        estadoConexion.className = esFallo ? 'insignia estado-fallo' : 'insignia estado-ok';
-        estadoTexto.textContent = panel.estado;
-    }
-
-    if (ultimoPaqueteEl && panel.ultimoPaquete) {
-        ultimoPaqueteEl.textContent = `Último paquete: ${panel.ultimoPaquete}`;
-    }
-
-    if (recibidoEl && panel.recibidos !== undefined) {
-        recibidoEl.textContent = `Recibidos ${panel.recibidos}`;
-    }
-
-    if (perdidosEl && panel.perdidos !== undefined) {
-        perdidosEl.textContent = `Perdidos ${panel.perdidos}`;
-    }
-
-    if (crcEl && panel.crc !== undefined) {
-        crcEl.textContent = `CRC ${panel.crc}`;
-    }
-
-    if (Array.isArray(panel.antenas)) {
-        panel.antenas.forEach(ant => {
-            const li = document.querySelector(`.nodos-barra li[data-antena="${ant.id}"]`);
-            if (!li) return;
-            li.classList.toggle('nodo-ok', ant.tipo === 'ok');
-            li.classList.toggle('nodo-aviso', ant.tipo === 'revisar' || ant.tipo === 'aviso');
-            li.classList.toggle('nodo-alerta', ant.tipo === 'fallo');
-        });
-    }
-
-    if (Array.isArray(panel.paquetes)) {
-        const nuevoSnapshot = JSON.stringify(panel.paquetes);
-        if (nuevoSnapshot !== snapshotLimpiado) {
-            snapshotLimpiado = '';
-            paquetesActuales = panel.paquetes;
-            pintarPaquetes();
-        }
-    }
-
-    if (Array.isArray(panel.avisos)) {
-        pintarAvisos(panel.avisos);
-    }
-}
-
-document.querySelectorAll('#avisos-lista .btn-cerrar').forEach(btn => {
-    btn.addEventListener('click', () => {
-        const aviso = btn.closest('.aviso');
-        if (aviso) aviso.remove();
-    });
-});
-
+actualizarVistaEstadoSuperior();
 pintarPaquetes();
