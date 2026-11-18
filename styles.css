@@ -503,12 +503,6 @@ nav {
     overflow-y: auto;
 }
 
-.consola-lista,
-.panel-pantalla-completa {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(197, 147, 102, 0.5) #11161F;
-}
-
 .consola-vacia {
     padding: 16px 12px;
     color: #908E9C;
