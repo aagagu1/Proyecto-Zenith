@@ -1,0 +1,49 @@
+services:
+  broadcaster:
+    build: ./python-services
+    command: python broadcaster.py
+    ports:
+      - "8765:8765"
+    restart: always
+
+  catcher:
+    build: ./python-services
+    command: uvicorn catcher:app --host 0.0.0.0 --port 5000
+    ports:
+      - "5000:5000"
+    depends_on:
+      - mongodb
+      - broadcaster
+    restart: always
+
+  mongodb:
+    image: mongo:8.0.3
+    ports:
+      - "127.0.0.1:27017:27017"
+    volumes:
+      - mongo_datos:/data/db
+    restart: always
+
+  mariadb:
+    image: mariadb:11.4.4
+    environment:
+      MARIADB_ROOT_PASSWORD: root
+      MARIADB_DATABASE: zenith_db
+    volumes:
+      - maria_datos:/var/lib/mysql
+    restart: always
+
+  web:
+    build: ./web
+    ports:
+      - "80:80"
+    volumes:
+      - ./web:/var/www/html
+    depends_on:
+      - mariadb
+      - mongodb
+    restart: always
+
+volumes:
+  mongo_datos:
+  maria_datos:
