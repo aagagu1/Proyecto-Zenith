@@ -1,11 +1,25 @@
-:root{
+/* ==========================================================
+   VARIABLES CSS CONJUNTAS (Paleta y Tipografías oficiales Zenith)
+   ========================================================== */
+:root {
     --color-footer: #11161F;
     --color-background: #1B222E;
     --color-elements: #252F3F;
+    --color-bg: #1B222E;
+    --color-surface: #252F3F;
+    --color-ink: #11161F;
     --color-text: #E9E7F5;
     --color-accent: #C59366;
     --color-button-hover: #84633F;
+    --color-accent-dark: #84633F;
+    --color-success: #5FBF8F;
+    --color-warning: #E0B85C;
+    --color-error: #EE7A8A;
+    --color-info: #7FA6D9;
     --text-size: 100%;
+
+    --font-title: 'Inter', 'Google Sans', Arial, sans-serif;
+    --font-body: 'Redaction 10', 'Redaction', 'Times New Roman', serif;
 }
 
 * {
@@ -17,32 +31,48 @@
 body {
     background-color: var(--color-background);
     color: var(--color-text);
-    font-family: 'Times New Roman', Times, serif;
+    font-family: var(--font-body);
     padding: 20px;
     font-size: var(--text-size);
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Evitar scroll horizontal y asegurar elementos responsivos */
+img, svg, canvas {
+    max-width: 100%;
+    height: auto;
 }
 
 
 /* NAV */
 nav {
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto 16px auto;
     background-color: var(--color-elements);
+    border: 1px solid rgba(197, 147, 102, 0.35);
     border-radius: 8px;
     padding: 20px 45px;
     display: flex;
     align-items: center;
     gap: 10px;
+    flex-shrink: 0;
 }
 
 .nav-logo {
-    width: 10%;
+    width: 25%;
+}
+
+nav ul li {
+    font-size: 1.3rem;
 }
 
 .nav-links {
     list-style: none;
     display: flex;
     gap: 45px;
+    margin: 0 auto;
 }
 
 .nav-links a {
@@ -73,10 +103,10 @@ nav {
     position: sticky;
     top: 15px;
     z-index: 1000;
-    max-width: 1200px;
+    width: 100%;
     margin: 0 auto 28px auto;
     background-color: var(--color-elements);
-    border: 1px solid var(--color-border);
+    border: 1px solid rgba(197, 147, 102, 0.35);
     border-radius: 8px;
     padding: 15px 12px;
     display: flex;
@@ -100,7 +130,6 @@ nav {
 /* --- CONTENEDOR Y TARJETAS DE GRÁFICAS --- */
 .charts-wrapper {
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
     display: flex;
     flex-direction: column;
@@ -132,7 +161,7 @@ nav {
 }
 
 .bar-height {
-    height: 160px;
+    height: 240px;
 }
 
 
@@ -215,8 +244,8 @@ nav {
 
 .panel-layout {
     width: 100%;
-    max-width: 1200px;
     margin: 0 auto;
+    flex: 1;
 }
 
 .panel {
@@ -230,7 +259,7 @@ nav {
     color: var(--text);
     font-size: 100%;
     line-height: 1.4;
-    font-family: var(--font-body);
+    font-family: var(--font-title);
 }
 
 .panel [hidden] {
@@ -239,15 +268,19 @@ nav {
 
 .panel h2 {
     font-size: 160%;
+    font-weight: 700;
 }
 
 .panel h3,
 .insignia,
-.calidad-valor {
+.recibido {
     font-size: 125%;
+    font-weight: 600;
 }
 
 .texto-pequeno,
+.perdidos,
+.crc,
 .vista-actual,
 .nodos-barra,
 .consola-columnas,
@@ -255,30 +288,37 @@ nav {
 .fila-detalle,
 .aviso {
     font-size: 87.5%;
+    font-weight: 400;
 }
 
-.panel h2,
-.panel h3,
 .btn,
-.insignia,
-.calidad-valor,
 .nodos-barra,
-.vista-actual,
 .consola-columnas,
 .antena-activa,
 .estado-ok,
 .estado-revisar,
 .estado-fallo {
-    font-family: var(--font-title);
     font-weight: 600;
+}
+
+.fila-resumen {
+    font-variant-numeric: tabular-nums;
 }
 
 .estado-barra,
 .nodos-barra,
-.barra-acciones,
 .fila-detalle,
+.barra-acciones,
 .avisos {
     background: var(--bg);
+}
+
+.barra-acciones {
+    border-radius: 11px 11px 0 0;
+}
+
+.avisos {
+    border-radius: 0 0 11px 11px;
 }
 
 .consola-caja {
@@ -290,6 +330,12 @@ nav {
 .consola-caja,
 .desplegable ul {
     border: var(--borde);
+    border-radius: 12px;
+}
+
+.estado-barra,
+.nodos-barra {
+    overflow: hidden;
 }
 
 .desplegable ul {
@@ -350,7 +396,7 @@ nav {
     background: transparent;
     color: var(--accent);
     border: 2px solid var(--accent);
-    border-radius: 4px;
+    border-radius: 999px;
     font-size: 100%;
     cursor: pointer;
 }
@@ -361,9 +407,13 @@ nav {
 }
 
 .btn:hover {
+    background: rgba(197, 147, 102, 0.15);
+}
+
+.btn-primario:hover {
     background: var(--accent-hover);
     border-color: var(--accent-hover);
-    color: var(--text);
+    color: #fff;
 }
 
 .btn-cerrar {
@@ -398,7 +448,18 @@ nav {
     gap: 8px;
 }
 
-.calidad-valor,
+.recibido {
+    color: var(--text);
+}
+
+.perdidos {
+    color: var(--warn);
+}
+
+.crc {
+    color: var(--error);
+}
+
 .antena-activa {
     color: var(--accent);
 }
@@ -440,12 +501,33 @@ nav {
     margin-left: auto;
 }
 
-.nodo-activo {
-    border-bottom: 2px solid var(--accent);
+.nodo-punto {
+    display: none;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    margin-left: 8px;
+    flex-shrink: 0;
 }
 
-.nodo-alerta {
-    background: rgba(238, 122, 138, 0.12);
+.nodo-ok .nodo-punto {
+    display: inline-block;
+    background-color: var(--ok);
+}
+
+.nodo-aviso .nodo-punto {
+    display: inline-block;
+    background-color: var(--warn);
+}
+
+.nodo-alerta .nodo-punto {
+    display: inline-block;
+    background-color: var(--error);
+}
+
+.nodo-activo {
+    color: var(--accent);
+    background: rgba(197, 147, 102, 0.12);
 }
 
 .consola {
@@ -501,12 +583,6 @@ nav {
 .consola-lista {
     max-height: 260px;
     overflow-y: auto;
-}
-
-.consola-lista,
-.panel-pantalla-completa {
-    scrollbar-width: thin;
-    scrollbar-color: rgba(197, 147, 102, 0.5) #11161F;
 }
 
 .consola-vacia {
@@ -567,68 +643,10 @@ nav {
     max-height: none;
 }
 
-.footer-zenith {
-    background-color: var(--color-ink, #11161F); /* Fondo Negro tinta oficial */
-    color: var(--color-text, #E9E7F5);
-    border-top: 1px solid rgba(197, 147, 102, 0.35); /* Filete fino cobre al 35% */
-    padding: 24px; /* Espaciado normalizado de la guía */
-    margin-top: 48px; /* Separación de grupo según guía */
-    font-family: var(--font-body, 'Redaction 10', 'Times New Roman', serif);
-    font-size: 0.875rem; /* 87,5% (texto pequeño para pie de página) */
-    line-height: 1.5;
+.panel-pantalla-completa #btn-historial {
+    display: none;
 }
 
-.footer-contenedor {
-    max-width: 1200px; /* Ancho máximo oficial de la guía */
-    margin: 0 auto;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-wrap: wrap;
-    gap: 24px;
-}
-
-.footer-logos {
-    display: flex;
-    align-items: center;
-}
-
-.footer-logo {
-    min-height: 100px; /* Alto mínimo obligatorio de 48 px en el pie según la guía */
-    max-height: 116px; /* Límite proporcional para no desbordar */
-    width: auto;
-    max-width: 100%;
-    object-fit: contain;
-    display: block;
-}
-
-.footer-info {
-    text-align: right;
-    color: #908E9C;
-}
-
-.footer-copyright {
-    margin-top: 8px; /* Espaciado interno de grupo (8-16 px) */
-    color: var(--color-text, #E9E7F5);
-}
-
-/* Enlaces en texto según la guía: Cobre (#C59366) subrayado */
-.footer-zenith a {
-    color: var(--color-accent, #C59366);
-    text-decoration: underline;
-    text-decoration-thickness: 1px;
-    transition: text-decoration-thickness 0.2s ease, color 0.2s ease;
-}
-
-/* Hover y foco accesible obligatorio */
-.footer-zenith a:hover {
-    text-decoration-thickness: 2px; /* Subrayado más grueso en hover */
-}
-
-.footer-zenith a:focus-visible {
-    outline: 2px solid #E9E7F5;
-    outline-offset: 2px;
-}
 @media (max-width: 639px) {
     .estado-barra {
         grid-template-columns: 1fr;
@@ -648,6 +666,7 @@ nav {
     .consola-columnas {
         display: none;
     }
+
     .footer-contenedor {
         flex-direction: column;
         text-align: center;
@@ -656,4 +675,67 @@ nav {
     .footer-info {
         text-align: center;
     }
+}
+
+/* PIE DE PÁGINA (ZENITH) */
+.footer-zenith {
+    background-color: var(--color-ink, #11161F);
+    color: var(--color-text, #E9E7F5);
+    border-top: 1px solid rgba(197, 147, 102, 0.35);
+    padding: 24px;
+    margin-top: 20px;
+    margin-left: -20px;
+    margin-right: -20px;
+    margin-bottom: -20px;
+    width: calc(100% + 40px);
+}
+
+.footer-contenedor {
+    max-width: 100%;
+    margin: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+}
+
+.footer-logos {
+    display: flex;
+    align-items: center;
+}
+
+.footer-logo {
+    min-height: 100px;
+    max-height: 116px;
+    width: auto;
+    max-width: 100%;
+    object-fit: contain;
+    display: block;
+}
+
+.footer-info {
+    text-align: right;
+    color: #908E9C;
+}
+
+.footer-copyright {
+    margin-top: 8px;
+    color: var(--color-text, #E9E7F5);
+}
+
+.footer-zenith a {
+    color: var(--color-accent, #C59366);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    transition: text-decoration-thickness 0.2s ease, color 0.2s ease;
+}
+
+.footer-zenith a:hover {
+    text-decoration-thickness: 2px;
+}
+
+/* Foco visible accesible requerido por la guía */
+button:focus-visible, a:focus-visible, input:focus-visible {
+    outline: 2px solid #E9E7F5;
+    outline-offset: 2px;
 }

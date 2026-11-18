@@ -23,7 +23,8 @@ function connectWebSocket() {
         return;
     }
 
-    const wsUrl = `ws://${window.location.hostname}:8765`;
+    const host = window.location.hostname || 'localhost';
+    const wsUrl = `ws://${host}:8765`;
     wsSocket = new WebSocket(wsUrl);
 
     // 1. CONEXIÓN ESTABLECIDA
@@ -72,16 +73,25 @@ function connectWebSocket() {
         };
 
         if (typeof paquetesActuales !== 'undefined' && typeof pintarPaquetes === 'function') {
+            if (receivedPacketsCount === 1) {
+                paquetesActuales = [];
+            }
             paquetesActuales.unshift(formattedPacket);
             if (paquetesActuales.length > 100) paquetesActuales.pop();
             pintarPaquetes();
         }
 
-        if (ultimoPaqueteEl) {
+        if (typeof ultimoPaqueteEl !== 'undefined' && ultimoPaqueteEl) {
             ultimoPaqueteEl.textContent = `Último paquete: ${currentTimeStr} (en vivo)`;
         }
-        if (contadoresEl) {
-            contadoresEl.textContent = `Recibidos ${receivedPacketsCount} · Perdidos 0 · CRC 0`;
+        if (typeof recibidoEl !== 'undefined' && recibidoEl) {
+            recibidoEl.textContent = `Recibidos ${receivedPacketsCount}`;
+        }
+        if (typeof perdidosEl !== 'undefined' && perdidosEl) {
+            perdidosEl.textContent = `Perdidos ${rawPayload.perdidos ?? 0}`;
+        }
+        if (typeof crcEl !== 'undefined' && crcEl) {
+            crcEl.textContent = `CRC ${rawPayload.crc_errores ?? 0}`;
         }
 
         // Actualizar Gráfica de Líneas
