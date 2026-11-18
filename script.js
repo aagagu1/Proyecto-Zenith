@@ -576,39 +576,4 @@ document.querySelectorAll('#avisos-lista .btn-cerrar').forEach(btn => {
     });
 });
 
-function obtenerDatosPanel() {
-    if (pausado) return;
-
-    fetch('datos.json')
-        .then(response => {
-            if (!response.ok) throw new Error('Sin datos.json');
-            return response.json();
-        })
-        .then(data => {
-            actualizarPanelDesdePython(data.panel);
-        })
-        .catch(() => {});
-}
-
-obtenerDatosPanel();
-setInterval(obtenerDatosPanel, 2000);
-
-// ==========================================================
-// 3. CONEXIÓN CON EL FLUJO DE PYTHON (LECTURA DE ARCHIVO LOCAL)
-// ==========================================================
-function obtenerDatosLocalesPython() {
-    fetch('datos.json')
-        .then(response => {
-            if (!response.ok) throw new Error("No se pudo cargar el archivo de datos");
-            return response.json();
-        })
-        .then(data => {
-            actualizarGraficasDesdePython(data);
-        })
-        .catch(error => {
-            console.log("Esperando flujo de datos desde Python...", error);
-        });
-}
-
-// Consultar los datos nuevos de Python cada 2 segundos automáticamente
-setInterval(obtenerDatosLocalesPython, 2000);
+pintarPaquetes();
